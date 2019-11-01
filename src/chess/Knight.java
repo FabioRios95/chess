@@ -25,12 +25,12 @@ Knight(String colorPiece)
         return image;
     }
     
-    public void canMove(int x, int y, int t, int z, String color)
+    public void canMove(int x, int y, int t, int z, String color , Square[][] board)
     {
      if(isValid(x,y) && !board[t][z].getPiece().color.equals(board[x][y].getPiece().color))
             {
                         board[x][y].getPiece().setBorder(x, y, color, board);
-                        if(color.equals("yellow"))
+                        //if(color.equals("yellow"))
                             possible.offer(new int[]{x,y});
             }
     }
@@ -71,18 +71,19 @@ Knight(String colorPiece)
                 leftTwo=8;
                 rightTwo=8;
             }
-            canMove(leftTwo, upOne, t, z,"black");
-            canMove(leftTwo, downOne, t, z,"black");
-            canMove(rightTwo, upOne, t, z,"black");
-            canMove(rightTwo, downOne, t, z,"black");
+            canMove(leftTwo, upOne, t, z,"black", board);
+            canMove(leftTwo, downOne, t, z,"black", board);
+            canMove(rightTwo, upOne, t, z,"black", board);
+            canMove(rightTwo, downOne, t, z,"black", board);
 
-            canMove(diagLeft, upTwo, t, z,"black");
-            canMove(diagRight, upTwo, t, z,"black");
-            canMove(diagLeft, downTwo, t, z,"black");
-            canMove(diagRight, downTwo, t, z,"black");
+            canMove(diagLeft, upTwo, t, z,"black", board);
+            canMove(diagRight, upTwo, t, z,"black", board);
+            canMove(diagLeft, downTwo, t, z,"black", board);
+            canMove(diagRight, downTwo, t, z,"black", board);
     }
     
-    public void possibleMove(int t, int z){
+    @Override
+    public void possibleMove(int t, int z, String colorBorder, Square[][] board){
 
     int downTwo,upTwo, diagLeft, diagRight;
     int downOne, upOne, leftTwo, rightTwo;
@@ -118,15 +119,15 @@ Knight(String colorPiece)
                 leftTwo=8;
                 rightTwo=8;
             }
-            canMove(leftTwo, upOne, t, z,"yellow");
-            canMove(leftTwo, downOne, t, z,"yellow");
-            canMove(rightTwo, upOne, t, z,"yellow");
-            canMove(rightTwo, downOne, t, z,"yellow");
+            canMove(leftTwo, upOne, t, z, colorBorder, board);
+            canMove(leftTwo, downOne, t, z,colorBorder, board);
+            canMove(rightTwo, upOne, t, z,colorBorder, board);
+            canMove(rightTwo, downOne, t, z,colorBorder, board);
 
-            canMove(diagLeft, upTwo, t, z,"yellow");
-            canMove(diagRight, upTwo, t, z,"yellow");
-            canMove(diagLeft, downTwo, t, z,"yellow");
-            canMove(diagRight, downTwo, t, z,"yellow");
+            canMove(diagLeft, upTwo, t, z,colorBorder, board);
+            canMove(diagRight, upTwo, t, z,colorBorder, board);
+            canMove(diagLeft, downTwo, t, z,colorBorder, board);
+            canMove(diagRight, downTwo, t, z,colorBorder, board);
         
         }
 }

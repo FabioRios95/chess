@@ -53,7 +53,7 @@ Pawn(String colorPiece)
     }
     
     @Override
-    public void possibleMove(int t, int z)
+    public void possibleMove(int t, int z, String colorBorder, Square[][] board)
     {
         if(!hasMoved)
         {
@@ -80,22 +80,22 @@ Pawn(String colorPiece)
             }
             if(isValid(diagLeft,upOne) && !board[diagLeft][upOne].getPiece().isEmpty() && !board[t][z].getPiece().color.equals(board[diagLeft][upOne].getPiece().color))
             {
-                        board[diagLeft][upOne].getPiece().setBorder(diagLeft, upOne, "yellow", board);
+                        board[diagLeft][upOne].getPiece().setBorder(diagLeft, upOne, colorBorder, board);
                         possible.offer(new int[]{diagLeft,upOne});
             }
             if(isValid(diagRight,upOne) && !board[diagRight][upOne].getPiece().isEmpty() && !board[t][z].getPiece().color.equals(board[diagRight][upOne].getPiece().color))
             {
-                        board[diagRight][upOne].getPiece().setBorder(diagRight, upOne, "yellow", board);
+                        board[diagRight][upOne].getPiece().setBorder(diagRight, upOne, colorBorder, board);
                         possible.offer(new int[]{diagRight,upOne});
             }
             if(isValid(t,upOne) && board[t][upOne].getPiece().isEmpty())
             {
-                        board[t][upOne].getPiece().setBorder(t, upOne, "yellow", board);
+                        board[t][upOne].getPiece().setBorder(t, upOne, colorBorder, board);
                         possible.offer(new int[]{t,upOne});
             }
             if((z == 1 || z == 6) && isValid(t,upTwo)&& board[t][upTwo].getPiece().isEmpty())
             {
-                board[t][upTwo].getPiece().setBorder(t, upTwo, "yellow", board);
+                board[t][upTwo].getPiece().setBorder(t, upTwo, colorBorder, board);
   
                         possible.offer(new int[]{t,upTwo});
             }

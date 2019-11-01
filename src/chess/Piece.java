@@ -40,7 +40,11 @@ public abstract class Piece {
         this.updatePiece=color + " " + pieceName;
         }
         else
+        {
             imageName="empty";
+            color="empty";
+        }
+        
         
         openFile();
     }
@@ -102,7 +106,7 @@ public abstract class Piece {
         this.board=board;
     }
     
-    public abstract void possibleMove(int t, int z);
+    public abstract void possibleMove(int t, int z, String colorBorder, Square[][] board);
     
     public abstract void removeMove(int t, int z);
  

@@ -182,35 +182,35 @@ Queen(String colorPiece)
     }
     }
     @Override
-    public void possibleMove(int t, int z){
+    public void possibleMove(int t, int z, String colorBorder, Square[][] board){
 
             if(color.equals("black"))
             {
                 
                                //col, row, left/right, up/down 
-                helperStackBlackDiagonal(t, z, t+1, z+1, 0, board, "yellow"); // up,right
-                helperStackBlackDiagonal(t, z, t+1, z-1, 1, board, "yellow"); // down, right
-                helperStackBlackDiagonal(t, z, t-1, z-1, 2, board, "yellow"); // left, down
-                helperStackBlackDiagonal(t, z, t-1, z+1, 3, board, "yellow");
+                helperStackBlackDiagonal(t, z, t+1, z+1, 0, board, colorBorder); // up,right
+                helperStackBlackDiagonal(t, z, t+1, z-1, 1, board, colorBorder); // down, right
+                helperStackBlackDiagonal(t, z, t-1, z-1, 2, board, colorBorder); // left, down
+                helperStackBlackDiagonal(t, z, t-1, z+1, 3, board, colorBorder);
                 
                 
-                helperStackBlack(t, z, t, z+1, 0, board, "yellow");
-                helperStackBlack(t, z, t+1, z, 1, board, "yellow");
-                helperStackBlack(t, z, t, z-1, 2, board, "yellow");
-                helperStackBlack(t, z, t-1, z, 3, board, "yellow");
+                helperStackBlack(t, z, t, z+1, 0, board, colorBorder);
+                helperStackBlack(t, z, t+1, z, 1, board, colorBorder);
+                helperStackBlack(t, z, t, z-1, 2, board, colorBorder);
+                helperStackBlack(t, z, t-1, z, 3, board, colorBorder);
             } 
             else if(color.equals("white")){
                 
-                helperStackWhiteDiagonal(t, z, t+1, z-1, 0, board, "yellow");
-                helperStackWhiteDiagonal(t, z, t+1, z+1, 1, board, "yellow");
-                helperStackWhiteDiagonal(t, z, t-1, z+1, 2, board, "yellow");
-                helperStackWhiteDiagonal(t, z, t-1, z-1, 3, board, "yellow");
+                helperStackWhiteDiagonal(t, z, t+1, z-1, 0, board, colorBorder);
+                helperStackWhiteDiagonal(t, z, t+1, z+1, 1, board, colorBorder);
+                helperStackWhiteDiagonal(t, z, t-1, z+1, 2, board, colorBorder);
+                helperStackWhiteDiagonal(t, z, t-1, z-1, 3, board, colorBorder);
                 
                 
-                helperStackWhite(t, z, t, z-1, 0, board, "yellow");
-                helperStackWhite(t, z, t+1, z, 1, board, "yellow");
-                helperStackWhite(t, z, t, z+1, 2, board, "yellow");
-                helperStackWhite(t, z, t-1, z, 3, board, "yellow");
+                helperStackWhite(t, z, t, z-1, 0, board, colorBorder);
+                helperStackWhite(t, z, t+1, z, 1, board, colorBorder);
+                helperStackWhite(t, z, t, z+1, 2, board, colorBorder);
+                helperStackWhite(t, z, t-1, z, 3, board, colorBorder);
             }
 
         }

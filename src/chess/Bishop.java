@@ -104,23 +104,23 @@ Bishop(String colorPiece)
     }
     }
     @Override
-    public void possibleMove(int t, int z){
+    public void possibleMove(int t, int z, String colorBorder, Square[][] board){
 
             if(color.equals("black"))
             {
                 
                                //col, row, left/right, up/down 
-                helperStackBlack(t, z, t+1, z+1, 0, board, "yellow"); // up,right
-                helperStackBlack(t, z, t+1, z-1, 1, board, "yellow"); // down, right
-                helperStackBlack(t, z, t-1, z-1, 2, board, "yellow"); // left, down
-                helperStackBlack(t, z, t-1, z+1, 3, board, "yellow");
+                helperStackBlack(t, z, t+1, z+1, 0, board, colorBorder); // up,right
+                helperStackBlack(t, z, t+1, z-1, 1, board, colorBorder); // down, right
+                helperStackBlack(t, z, t-1, z-1, 2, board, colorBorder); // left, down
+                helperStackBlack(t, z, t-1, z+1, 3, board, colorBorder);
             } 
             else if(color.equals("white")){
                 
-                helperStackWhite(t, z, t+1, z-1, 0, board, "yellow");
-                helperStackWhite(t, z, t+1, z+1, 1, board, "yellow");
-                helperStackWhite(t, z, t-1, z+1, 2, board, "yellow");
-                helperStackWhite(t, z, t-1, z-1, 3, board, "yellow");
+                helperStackWhite(t, z, t+1, z-1, 0, board, colorBorder);
+                helperStackWhite(t, z, t+1, z+1, 1, board, colorBorder);
+                helperStackWhite(t, z, t-1, z+1, 2, board, colorBorder);
+                helperStackWhite(t, z, t-1, z-1, 3, board, colorBorder);
             }
 
         }

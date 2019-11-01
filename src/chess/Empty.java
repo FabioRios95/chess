@@ -29,8 +29,8 @@ public class Empty extends Piece {
     {
         return playerOneTurn;
     }
-    
-    public void possibleMove(int t, int z){}
+    @Override
+    public void possibleMove(int t, int z, String colorBorder, Square[][] board){}
     public void removeMove(int t, int z){}
     
 }

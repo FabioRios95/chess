@@ -30,8 +30,12 @@ public class Game {
     private Piece previousPiece;
     private Stage stage;
     private boolean playerOneTurn=true;
-    private Piece blackKing;
-    private Piece whiteKing;
+    private int[] blackKing= new int[]{4,0};
+    private int[] whiteKing= new int[]{4,7};
+    private boolean blackCheck=false;
+    private boolean whiteCheck=false;
+    private boolean prevBlackCheck=false;
+    private boolean prevWhiteCheck=false;
    
     
  
@@ -80,7 +84,7 @@ public class Game {
                         isSelected=true;
                         lastX=posX;
                         lastY=posY;
-                        board[posX][posY].getPiece().possibleMove(posX, posY);
+                        board[posX][posY].getPiece().possibleMove(posX, posY, "yellow", board);
                         previousPiece=board[posX][posY].getPiece();
                         }
                         else{
@@ -169,8 +173,69 @@ public class Game {
         this.stage=stage;
     }
     
+    
     public void Move(int posX, int posY, Stage newWindow){
-       playerOneTurn = previousPiece.move(posX, posY, newWindow, playerOneTurn, lastX, lastY);
-       
+       boolean turn=playerOneTurn;
+        playerOneTurn = previousPiece.move(posX, posY, newWindow, playerOneTurn, lastX, lastY);
+      
+      if(playerOneTurn != turn)
+       {
+           //Update King position
+           if(previousPiece.imageName.equals("blackKing"))
+           {
+                blackKing= new int[]{posX,posY};
+           }
+           else if(previousPiece.imageName.equals("whiteKing"))
+           {
+                whiteKing= new int[]{posX,posY};
+           }
+           
+           checkEverything(previousPiece.color);
+       }
+    }
+    
+    public void checkEverything(String currentColor){
+        prevBlackCheck=blackCheck;
+        prevWhiteCheck=whiteCheck;
+        blackCheck=false;
+        whiteCheck=false;
+        for(int i=0;i<8; i++)
+        {
+            for(int j=0; j<8;j++)
+            {
+                //has to be another color piece 
+                if(!board[j][i].getPiece().color.equals(currentColor) || board[j][i].getPiece().color.equals("empty"))
+                   continue;
+                else {
+                    board[j][i].getPiece().possibleMove(j,i,"black", board);
+                    checkPossible(board[j][i].getPiece());
+                }
+            }
+        }
+        if(whiteCheck || blackCheck)
+            System.out.println("Check!");
+    }
+    
+    public void checkPossible(Piece prevPiece)
+    {
+        
+        while(!prevPiece.possible.isEmpty())
+        {
+            
+            int[] points = prevPiece.possible.poll();
+            //System.out.println(points[0] +" " + points[1] +" " + prevPiece.imageName);
+            if(prevPiece.color.equals("white")){
+                if(blackKing[0] != points[0] || blackKing[1] != points[1])
+                continue;
+                blackCheck=true;
+            }
+            else if(prevPiece.color.equals("black"))
+            {
+                if(whiteKing[0] != points[0] || whiteKing[1] != points[1])
+                continue;
+                whiteCheck=true;
+            }
+        }
+        
     }
 }

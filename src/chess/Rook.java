@@ -28,6 +28,7 @@ Rook(String colorPiece)
     //x,y is new
       public void helperStackBlack(int t, int z, int x, int y, int direction, Square[][] board, String border)
     {
+        
         if(!isValid(x,y) || board[t][z].getPiece().color.equals(board[x][y].getPiece().color) )
                 return;
         
@@ -105,22 +106,22 @@ Rook(String colorPiece)
     }
     }
     
-    public void possibleMove(int t, int z){
+    public void possibleMove(int t, int z, String colorBorder, Square[][] board){
 
             if(color.equals("black"))
             {
                 
-                helperStackBlack(t, z, t, z+1, 0, board, "yellow");
-                helperStackBlack(t, z, t+1, z, 1, board, "yellow");
-                helperStackBlack(t, z, t, z-1, 2, board, "yellow");
-                helperStackBlack(t, z, t-1, z, 3, board, "yellow");
+                helperStackBlack(t, z, t, z+1, 0, board, colorBorder);
+                helperStackBlack(t, z, t+1, z, 1, board, colorBorder);
+                helperStackBlack(t, z, t, z-1, 2, board, colorBorder);
+                helperStackBlack(t, z, t-1, z, 3, board, colorBorder);
             } 
             else if(color.equals("white")){
                 
-                helperStackWhite(t, z, t, z-1, 0, board, "yellow");
-                helperStackWhite(t, z, t+1, z, 1, board, "yellow");
-                helperStackWhite(t, z, t, z+1, 2, board, "yellow");
-                helperStackWhite(t, z, t-1, z, 3, board, "yellow");
+                helperStackWhite(t, z, t, z-1, 0, board, colorBorder);
+                helperStackWhite(t, z, t+1, z, 1, board, colorBorder);
+                helperStackWhite(t, z, t, z+1, 2, board, colorBorder);
+                helperStackWhite(t, z, t-1, z, 3, board, colorBorder);
             }
 
         }

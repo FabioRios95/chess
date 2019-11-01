@@ -39,7 +39,7 @@ public class Square {
             createMap();
     }
     
-    public Piece getPiece(){
+    public final Piece getPiece(){
         return piece;
     }
     
