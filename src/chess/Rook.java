@@ -5,9 +5,8 @@
  */
 package chess;
 
-import java.io.File;
+
 import javafx.scene.image.Image;
-import javafx.stage.Stage;
 
 /**
  *
@@ -32,38 +31,38 @@ Rook(String colorPiece)
         if(!isValid(x,y) || board[t][z].getPiece().color.equals(board[x][y].getPiece().color) )
                 return;
         
-        if(direction == 0)
-        {
+    switch (direction) {
+        case 0:
             board[x][y].getPiece().setBorder(x, y, border, board);
             possible.offer(new int[]{x,y});
             if(!board[t][z].getPiece().color.equals(board[x][y].getPiece().color) && !board[x][y].getPiece().isEmpty())
                 return;
             helperStackBlack(t, z, x, y+1, 0, board, border);
-        }
-        else if(direction == 1)
-        {
+            break;
+        case 1:
             board[x][y].getPiece().setBorder(x, y, border, board);
             possible.offer(new int[]{x,y});
             if(!board[t][z].getPiece().color.equals(board[x][y].getPiece().color) && !board[x][y].getPiece().isEmpty())
                 return;
             helperStackBlack(t, z, x+1, y, 1, board, border);
-        }
-        else if(direction == 2)
-        {
+            break;
+        case 2:
             board[x][y].getPiece().setBorder(x, y, border, board);
             possible.offer(new int[]{x,y});
             if(!board[t][z].getPiece().color.equals(board[x][y].getPiece().color) && !board[x][y].getPiece().isEmpty())
                 return;
             helperStackBlack(t, z, x, y-1, 2, board, border);
-        }
-        else if(direction == 3)
-        {
+            break;
+        case 3:
             board[x][y].getPiece().setBorder(x, y, border, board);
             possible.offer(new int[]{x,y});
             if(!board[t][z].getPiece().color.equals(board[x][y].getPiece().color) && !board[x][y].getPiece().isEmpty())
                 return;
             helperStackBlack(t, z, x-1, y, 3, board, border);
-        }
+            break;
+        default:
+            break;
+    }
     }
     
     public void helperStackWhite(int t, int z, int x, int y, int direction, Square[][] board, String border)
@@ -72,38 +71,38 @@ Rook(String colorPiece)
         if(!isValid(x,y) || board[t][z].getPiece().color.equals(board[x][y].getPiece().color) )
                 return;
         
-        if(direction == 0)
-        {
+    switch (direction) {
+        case 0:
             board[x][y].getPiece().setBorder(x, y, border, board);
             possible.offer(new int[]{x,y});
             if(!board[t][z].getPiece().color.equals(board[x][y].getPiece().color) && !board[x][y].getPiece().isEmpty())
                 return;
             helperStackWhite(t, z, x, y-1, 0, board, border);
-        }
-        else if(direction == 1)
-        {
+            break;
+        case 1:
             board[x][y].getPiece().setBorder(x, y, border, board);
             possible.offer(new int[]{x,y});
             if(!board[t][z].getPiece().color.equals(board[x][y].getPiece().color) && !board[x][y].getPiece().isEmpty())
                 return;
             helperStackWhite(t, z, x+1, y, 1, board, border);
-        }
-        else if(direction == 2)
-        {
+            break;
+        case 2:
             board[x][y].getPiece().setBorder(x, y, border, board);
             possible.offer(new int[]{x,y});
             if(!board[t][z].getPiece().color.equals(board[x][y].getPiece().color) && !board[x][y].getPiece().isEmpty())
                 return;
             helperStackWhite(t, z, x, y+1, 2, board, border);
-        }
-        else if(direction == 3)
-        {
+            break;
+        case 3:
             board[x][y].getPiece().setBorder(x, y, border, board);
             possible.offer(new int[]{x,y});
             if(!board[t][z].getPiece().color.equals(board[x][y].getPiece().color) && !board[x][y].getPiece().isEmpty())
                 return;
             helperStackWhite(t, z, x-1, y, 3, board, border);
-        }
+            break;
+        default:
+            break;
+    }
     }
     
     public void possibleMove(int t, int z){

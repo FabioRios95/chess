@@ -5,8 +5,7 @@
  */
 package chess;
 
-import java.util.HashSet;
-import javafx.application.Application;
+
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Pos;
@@ -16,10 +15,7 @@ import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.StackPane;
-import javafx.scene.layout.TilePane;
 import javafx.scene.layout.VBox;
-import javafx.stage.Popup;
 import javafx.stage.Stage;
 
 /**
@@ -34,6 +30,8 @@ public class Game {
     private Piece previousPiece;
     private Stage stage;
     private boolean playerOneTurn=true;
+    private Piece blackKing;
+    private Piece whiteKing;
    
     
  
@@ -63,7 +61,6 @@ public class Game {
                else{
                    System.out.println("That is not a valid click.");
                }
-                
             }
             });
     }

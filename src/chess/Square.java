@@ -3,7 +3,6 @@ package chess;
 
 
 import javafx.scene.layout.VBox;
-import javafx.scene.paint.Color;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Rectangle;
 
@@ -38,7 +37,6 @@ public class Square {
         setPiece(pieceName);
         if(position == null)
             createMap();
-        
     }
     
     public Piece getPiece(){
@@ -84,84 +82,101 @@ public class Square {
     {
         return position[x][y];
     }
-    public void setPiece(String piece){
-        if(piece.equals("black King")){
-            this.piece = new King("black King");
-            ImagePattern imagePattern = new ImagePattern(this.piece.getImage());
-            space.setFill(imagePattern);
-        }
-        else if(piece.equals("black Rook"))
-        {
-            this.piece = new Rook("black Rook");
-            ImagePattern imagePattern = new ImagePattern(this.piece.getImage());
-            space.setFill(imagePattern);
-        }
-        else if(piece.equals("black Knight"))
-        {
-            this.piece = new Knight("black Knight");
-            ImagePattern imagePattern = new ImagePattern(this.piece.getImage());
-            space.setFill(imagePattern);
-        }
-        else if(piece.equals("black Bishop"))
-        {
-            this.piece = new Bishop("black Bishop");
-            ImagePattern imagePattern = new ImagePattern(this.piece.getImage());
-            space.setFill(imagePattern);
-        }
-        else if(piece.equals("black Queen"))
-        {
-            this.piece = new Queen("black Queen");
-            ImagePattern imagePattern = new ImagePattern(this.piece.getImage());
-            space.setFill(imagePattern);
-        }
-        else if(piece.equals("black Pawn"))
-        {
-            this.piece = new Pawn("black Pawn");
-            ImagePattern imagePattern = new ImagePattern(this.piece.getImage());
-            space.setFill(imagePattern);
-        }
-        else if(piece.equals("white King")){
-            this.piece = new King("white King");
-            ImagePattern imagePattern = new ImagePattern(this.piece.getImage());
-            space.setFill(imagePattern);
-        }
-        else if(piece.equals("white Rook"))
-        {
-            this.piece = new Rook("white Rook");
-            ImagePattern imagePattern = new ImagePattern(this.piece.getImage());
-            space.setFill(imagePattern);
-        }
-        else if(piece.equals("white Knight"))
-        {
-            this.piece = new Knight("white Knight");
-            ImagePattern imagePattern = new ImagePattern(this.piece.getImage());
-            space.setFill(imagePattern);
-        }
-        else if(piece.equals("white Bishop"))
-        {
-            this.piece = new Bishop("white Bishop");
-            ImagePattern imagePattern = new ImagePattern(this.piece.getImage());
-            space.setFill(imagePattern);
-        }
-        else if(piece.equals("white Queen"))
-        {
-            this.piece = new Queen("white Queen");
-            ImagePattern imagePattern = new ImagePattern(this.piece.getImage());
-            space.setFill(imagePattern);
-        }
-        else if(piece.equals("white Pawn"))
-        {
-            this.piece = new Pawn("white Pawn");
-            ImagePattern imagePattern = new ImagePattern(this.piece.getImage());
-            space.setFill(imagePattern);
-        }
-        else
-        {
-            this.piece = new Empty(" ");
-            ImagePattern imagePattern = new ImagePattern(this.piece.getImage());
-            space.setFill(imagePattern);
-            this.piece.color="empty";
-            this.piece.imageName="empty";
+    public final void setPiece(String piece){
+        switch (piece) {
+            case "black King":
+                {
+                    this.piece = new King("black King");
+                    ImagePattern imagePattern = new ImagePattern(this.piece.getImage());
+                    space.setFill(imagePattern);
+                    break;
+                }
+            case "black Rook":
+                {
+                    this.piece = new Rook("black Rook");
+                    ImagePattern imagePattern = new ImagePattern(this.piece.getImage());
+                    space.setFill(imagePattern);
+                    break;
+                }
+            case "black Knight":
+                {
+                    this.piece = new Knight("black Knight");
+                    ImagePattern imagePattern = new ImagePattern(this.piece.getImage());
+                    space.setFill(imagePattern);
+                    break;
+                }
+            case "black Bishop":
+                {
+                    this.piece = new Bishop("black Bishop");
+                    ImagePattern imagePattern = new ImagePattern(this.piece.getImage());
+                    space.setFill(imagePattern);
+                    break;
+                }
+            case "black Queen":
+                {
+                    this.piece = new Queen("black Queen");
+                    ImagePattern imagePattern = new ImagePattern(this.piece.getImage());
+                    space.setFill(imagePattern);
+                    break;
+                }
+            case "black Pawn":
+                {
+                    this.piece = new Pawn("black Pawn");
+                    ImagePattern imagePattern = new ImagePattern(this.piece.getImage());
+                    space.setFill(imagePattern);
+                    break;
+                }
+            case "white King":
+                {
+                    this.piece = new King("white King");
+                    ImagePattern imagePattern = new ImagePattern(this.piece.getImage());
+                    space.setFill(imagePattern);
+                    break;
+                }
+            case "white Rook":
+                {
+                    this.piece = new Rook("white Rook");
+                    ImagePattern imagePattern = new ImagePattern(this.piece.getImage());
+                    space.setFill(imagePattern);
+                    break;
+                }
+            case "white Knight":
+                {
+                    this.piece = new Knight("white Knight");
+                    ImagePattern imagePattern = new ImagePattern(this.piece.getImage());
+                    space.setFill(imagePattern);
+                    break;
+                }
+            case "white Bishop":
+                {
+                    this.piece = new Bishop("white Bishop");
+                    ImagePattern imagePattern = new ImagePattern(this.piece.getImage());
+                    space.setFill(imagePattern);
+                    break;
+                }
+            case "white Queen":
+                {
+                    this.piece = new Queen("white Queen");
+                    ImagePattern imagePattern = new ImagePattern(this.piece.getImage());
+                    space.setFill(imagePattern);
+                    break;
+                }
+            case "white Pawn":
+                {
+                    this.piece = new Pawn("white Pawn");
+                    ImagePattern imagePattern = new ImagePattern(this.piece.getImage());
+                    space.setFill(imagePattern);
+                    break;
+                }
+            default:
+                {
+                    this.piece = new Empty(" ");
+                    ImagePattern imagePattern = new ImagePattern(this.piece.getImage());
+                    space.setFill(imagePattern);
+                    this.piece.color="empty";
+                    this.piece.imageName="empty";
+                    break;
+                }
         }
     }
 }

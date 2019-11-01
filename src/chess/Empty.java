@@ -5,7 +5,6 @@
  */
 package chess;
 
-import java.io.File;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
@@ -31,5 +30,7 @@ public class Empty extends Piece {
         return playerOneTurn;
     }
     
+    public void possibleMove(int t, int z){}
+    public void removeMove(int t, int z){}
     
 }

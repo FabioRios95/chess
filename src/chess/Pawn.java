@@ -5,7 +5,7 @@
  */
 package chess;
 
-import javafx.scene.layout.Background;
+
 import javafx.stage.Stage;
 
 
@@ -129,49 +129,13 @@ Pawn(String colorPiece)
                 diagRight=8;
             }
             if(isValid(diagLeft,upOne) && !board[diagLeft][upOne].getPiece().isEmpty() && !board[t][z].getPiece().color.equals(board[diagLeft][upOne].getPiece().color))
-            {
-            Background original = board[diagLeft][upOne].getBox().getBackground();
-                        board[diagLeft][upOne].getBox().setStyle(
-                      "-fx-border-style: solid inside;" + 
-                      "-fx-border-width: 2;" +
-                      "-fx-border-color: black;"
-                        );
-                        board[diagLeft][upOne].getBox().setBackground(original);
-                        
-            }
+                board[diagLeft][upOne].getPiece().setBorder(diagLeft, upOne, "black", board);
             if(isValid(diagRight,upOne) && !board[diagRight][upOne].getPiece().isEmpty() && !board[t][z].getPiece().color.equals(board[diagRight][upOne].getPiece().color))
-            {
-            Background original = board[diagRight][upOne].getBox().getBackground();
-                        board[diagRight][upOne].getBox().setStyle(
-                      "-fx-border-style: solid inside;" + 
-                      "-fx-border-width: 2;" +
-                      "-fx-border-color: black;"
-                        );
-                        board[diagRight][upOne].getBox().setBackground(original);
-                        
-            }
+                board[diagRight][upOne].getPiece().setBorder(diagRight, upOne, "black", board);
             if(isValid(t,upOne) && board[t][upOne].getPiece().isEmpty())
-            {
-                 Background original = board[t][upOne].getBox().getBackground();
-                        board[t][upOne].getBox().setStyle(
-                      "-fx-border-style: solid inside;" + 
-                      "-fx-border-width: 2;" +
-                      "-fx-border-color: black;"
-                        );
-                        board[t][upOne].getBox().setBackground(original);
-                       
-            }
+                board[t][upOne].getPiece().setBorder(t, upOne, "black", board);
             if((z == 1 || z == 6) && isValid(t,upTwo)&& board[t][upTwo].getPiece().isEmpty())
-            {
-                Background original = board[t][upTwo].getBox().getBackground();
-                        board[t][upTwo].getBox().setStyle(
-                      "-fx-border-style: solid inside;" + 
-                      "-fx-border-width: 2;" +
-                      "-fx-border-color: black;"
-                        );
-                        board[t][upTwo].getBox().setBackground(original);
-                        
-            }
+                board[t][upTwo].getPiece().setBorder(t, upTwo, "black", board);
         }
     }
     

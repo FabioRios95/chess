@@ -24,11 +24,20 @@ Knight(String colorPiece)
     public Image getImage(){
         return image;
     }
+    
+    public void canMove(int x, int y, int t, int z, String color)
+    {
+     if(isValid(x,y) && !board[t][z].getPiece().color.equals(board[x][y].getPiece().color))
+            {
+                        board[x][y].getPiece().setBorder(x, y, color, board);
+                        if(color.equals("yellow"))
+                            possible.offer(new int[]{x,y});
+            }
+    }
   
     public void removeMove(int t, int z)
     {
     int downTwo,upTwo, diagLeft, diagRight;
-    
     int downOne, upOne, leftTwo, rightTwo;
             if(color.equals("black"))
             {
@@ -62,48 +71,15 @@ Knight(String colorPiece)
                 leftTwo=8;
                 rightTwo=8;
             }
-            
-            if(isValid(leftTwo,upOne) && !board[t][z].getPiece().color.equals(board[leftTwo][upOne].getPiece().color))
-            {
-                        board[leftTwo][upOne].getPiece().setBorder(leftTwo, upOne, "black", board);
-                        possible.offer(new int[]{leftTwo,upOne});
-            }
-            if(isValid(leftTwo,downOne) && !board[t][z].getPiece().color.equals(board[leftTwo][downOne].getPiece().color))
-            {
-                        board[leftTwo][downOne].getPiece().setBorder(leftTwo, downOne, "black", board);
-                        possible.offer(new int[]{leftTwo,downOne});
-            }
-            if(isValid(rightTwo,upOne) && !board[t][z].getPiece().color.equals(board[rightTwo][upOne].getPiece().color))
-            {
-                        board[rightTwo][upOne].getPiece().setBorder(rightTwo, upOne, "black", board);
-                        possible.offer(new int[]{rightTwo,upOne});
-            }
-            if(isValid(rightTwo,downOne) && !board[t][z].getPiece().color.equals(board[rightTwo][downOne].getPiece().color))
-            {
-                        board[rightTwo][downOne].getPiece().setBorder(rightTwo, downOne, "black", board);
-                        possible.offer(new int[]{rightTwo,downOne});
-            }
-            
-            if(isValid(diagLeft,upTwo) && !board[t][z].getPiece().color.equals(board[diagLeft][upTwo].getPiece().color))
-            {
-                        board[diagLeft][upTwo].getPiece().setBorder(diagLeft, upTwo, "black", board);
-                        
-            }
-            if(isValid(diagRight,upTwo) && !board[t][z].getPiece().color.equals(board[diagRight][upTwo].getPiece().color))
-            {
-                        board[diagRight][upTwo].getPiece().setBorder(diagRight, upTwo, "black", board);
-                        
-            }
-            if(isValid(diagLeft,downTwo) && !board[t][z].getPiece().color.equals(board[diagLeft][downTwo].getPiece().color))
-            {
-                        board[diagLeft][downTwo].getPiece().setBorder(diagLeft, downTwo, "black", board);
-                        
-            }
-            if(isValid(diagRight,downTwo)  && !board[t][z].getPiece().color.equals(board[diagRight][downTwo].getPiece().color))
-            {
-                        board[diagRight][downTwo].getPiece().setBorder(diagRight, downTwo, "black", board);
-                        
-            }
+            canMove(leftTwo, upOne, t, z,"black");
+            canMove(leftTwo, downOne, t, z,"black");
+            canMove(rightTwo, upOne, t, z,"black");
+            canMove(rightTwo, downOne, t, z,"black");
+
+            canMove(diagLeft, upTwo, t, z,"black");
+            canMove(diagRight, upTwo, t, z,"black");
+            canMove(diagLeft, downTwo, t, z,"black");
+            canMove(diagRight, downTwo, t, z,"black");
     }
     
     public void possibleMove(int t, int z){
@@ -142,50 +118,16 @@ Knight(String colorPiece)
                 leftTwo=8;
                 rightTwo=8;
             }
-            
-            if(isValid(leftTwo,upOne) && !board[t][z].getPiece().color.equals(board[leftTwo][upOne].getPiece().color))
-            {
-                        board[leftTwo][upOne].getPiece().setBorder(leftTwo, upOne, "yellow", board);
-                        possible.offer(new int[]{leftTwo,upOne});
-            }
-            if(isValid(leftTwo,downOne) && !board[t][z].getPiece().color.equals(board[leftTwo][downOne].getPiece().color))
-            {
-                        board[leftTwo][downOne].getPiece().setBorder(leftTwo, downOne, "yellow", board);
-                        possible.offer(new int[]{leftTwo,downOne});
-            }
-            if(isValid(rightTwo,upOne) && !board[t][z].getPiece().color.equals(board[rightTwo][upOne].getPiece().color))
-            {
-                        board[rightTwo][upOne].getPiece().setBorder(rightTwo, upOne, "yellow", board);
-                        possible.offer(new int[]{rightTwo,upOne});
-            }
-            if(isValid(rightTwo,downOne) && !board[t][z].getPiece().color.equals(board[rightTwo][downOne].getPiece().color))
-            {
-                        board[rightTwo][downOne].getPiece().setBorder(rightTwo, downOne, "yellow", board);
-                        possible.offer(new int[]{rightTwo,downOne});
-            }
-            
-            
-            if(isValid(diagLeft,upTwo) && !board[t][z].getPiece().color.equals(board[diagLeft][upTwo].getPiece().color))
-            {
-                        board[diagLeft][upTwo].getPiece().setBorder(diagLeft, upTwo, "yellow", board);
-                        possible.offer(new int[]{diagLeft,upTwo});
-            }
-            if(isValid(diagRight,upTwo) && !board[t][z].getPiece().color.equals(board[diagRight][upTwo].getPiece().color))
-            {
-                        board[diagRight][upTwo].getPiece().setBorder(diagRight, upTwo, "yellow", board);
-                        possible.offer(new int[]{diagRight,upTwo});
-            }
-            if(isValid(diagLeft,downTwo) && !board[t][z].getPiece().color.equals(board[diagLeft][downTwo].getPiece().color))
-            {
-                        board[diagLeft][downTwo].getPiece().setBorder(diagLeft, downTwo, "yellow", board);
-                        possible.offer(new int[]{diagLeft,downTwo});
-            }
-            if(isValid(diagRight,downTwo)  && !board[t][z].getPiece().color.equals(board[diagRight][downTwo].getPiece().color))
-            {
-                        board[diagRight][downTwo].getPiece().setBorder(diagRight, downTwo, "yellow", board);
-                        possible.offer(new int[]{diagRight,downTwo});
-            }
+            canMove(leftTwo, upOne, t, z,"yellow");
+            canMove(leftTwo, downOne, t, z,"yellow");
+            canMove(rightTwo, upOne, t, z,"yellow");
+            canMove(rightTwo, downOne, t, z,"yellow");
 
+            canMove(diagLeft, upTwo, t, z,"yellow");
+            canMove(diagRight, upTwo, t, z,"yellow");
+            canMove(diagLeft, downTwo, t, z,"yellow");
+            canMove(diagRight, downTwo, t, z,"yellow");
+        
         }
 }
 
