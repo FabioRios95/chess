@@ -102,14 +102,10 @@ public abstract class Piece {
         this.board=board;
     }
     
-    public void possibleMove(int t, int z){
-        
-    }
+    public abstract void possibleMove(int t, int z);
     
-    public void removeMove(int t, int z)
-    {
-    
-    }
+    public abstract void removeMove(int t, int z);
+ 
     
     public void setBorder(int t, int z, String borderColor, Square[][] board)
     {
