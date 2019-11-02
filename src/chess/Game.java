@@ -173,9 +173,84 @@ public class Game {
         this.stage=stage;
     }
     
+    public boolean kingMoveFromCheck(String checkedKing){
+
+        if(checkedKing.equals("white"))
+        {
+            boolean realCheck=whiteCheck;
+            board[whiteKing[0]][whiteKing[1]].getPiece().possibleMove(whiteKing[0], whiteKing[1], "black", board);
+            if(board[whiteKing[0]][whiteKing[1]].getPiece().possible.isEmpty())
+                return false;
+            int[] realKing = new int[]{whiteKing[0],whiteKing[1]};
+            
+            
+            while(! board[whiteKing[0]][whiteKing[1]].getPiece().possible.isEmpty())
+            {
+               int temp[] = board[whiteKing[0]][whiteKing[1]].getPiece().possible.poll(); 
+               whiteKing[0]=temp[0];
+               whiteKing[1]=temp[1];
+               System.out.println("whiteKing[0] : " + whiteKing[0] + "whiteKing[1] " + whiteKing[1]);
+               checkEverything("black");
+               System.out.println(whiteCheck);
+               if(!whiteCheck)
+                   break;
+            }
+            
+            
+            while(! board[whiteKing[0]][whiteKing[1]].getPiece().possible.isEmpty())
+            {board[whiteKing[0]][whiteKing[1]].getPiece().possible.poll();}
+            whiteKing[0]=realKing[0];
+            whiteKing[1]=realKing[1];
+            boolean temp=whiteCheck;
+            whiteCheck=realCheck;
+            return !temp; 
+        }
+        else {
+        boolean realCheck=blackCheck;
+            board[blackKing[0]][blackKing[1]].getPiece().possibleMove(blackKing[0], blackKing[1], "black", board);
+            if(board[blackKing[0]][blackKing[1]].getPiece().possible.isEmpty())
+                return false;
+            int[] realKing = new int[]{blackKing[0],blackKing[1]};
+            
+            
+            while(! board[blackKing[0]][blackKing[1]].getPiece().possible.isEmpty())
+            {
+               int temp[] = board[blackKing[0]][blackKing[1]].getPiece().possible.poll(); 
+               blackKing[0]=temp[0];
+               blackKing[1]=temp[1];
+               System.out.println("blackKing[0] : " + blackKing[0] + "blackKing[1] " + blackKing[1]);
+               checkEverything("white");
+               System.out.println(blackCheck);
+               if(!blackCheck)
+                   break;
+            }
+            
+            
+            while(! board[blackKing[0]][blackKing[1]].getPiece().possible.isEmpty())
+            {board[blackKing[0]][blackKing[1]].getPiece().possible.poll();}
+            blackKing[0]=realKing[0];
+            blackKing[1]=realKing[1];
+            boolean temp=blackCheck;
+            blackCheck=realCheck;
+            return !temp;
+        }
+        
+        
+    }
+    
+    public boolean piecesCausingCheckKilled(String checkedKing)
+    {
+        return false;
+    }
+    
+    public boolean pieceInPathOfCheck(String checkedKing)
+    {
+        return false;
+    }
     
     public void Move(int posX, int posY, Stage newWindow){
        boolean turn=playerOneTurn;
+
         playerOneTurn = previousPiece.move(posX, posY, newWindow, playerOneTurn, lastX, lastY);
       
       if(playerOneTurn != turn)
@@ -207,13 +282,27 @@ public class Game {
                 if(!board[j][i].getPiece().color.equals(currentColor) || board[j][i].getPiece().color.equals("empty"))
                    continue;
                 else {
+                    System.out.println(board[j][i].getPiece().imageName);
                     board[j][i].getPiece().possibleMove(j,i,"black", board);
                     checkPossible(board[j][i].getPiece());
                 }
             }
         }
-        if(whiteCheck || blackCheck)
-            System.out.println("Check!");
+        if(whiteCheck)
+        {
+            if(!kingMoveFromCheck("white") && !piecesCausingCheckKilled("white") && !pieceInPathOfCheck("white"))
+                System.out.println("Black Wins!\nCheckmate!");
+            else
+                System.out.println("White Check!");
+        }
+        if(blackCheck)
+        {
+            if(!kingMoveFromCheck("black") && !piecesCausingCheckKilled("black") && !pieceInPathOfCheck("black"))
+                System.out.println("White Wins!\nCheckmate!");
+            else
+                System.out.println("Black Check!");
+        }
+            
     }
     
     public void checkPossible(Piece prevPiece)
