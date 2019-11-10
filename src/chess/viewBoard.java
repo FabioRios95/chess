@@ -9,7 +9,6 @@ package chess;
 
 
 import javafx.application.Application;
-import javafx.event.EventHandler;
 import javafx.scene.Scene;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -18,11 +17,11 @@ import javafx.stage.Stage;
 
 public class viewBoard extends Application {
     
-        private Square[][] board = new Square[8][8];
+        private static final Square[][] board = new Square[8][8];
         private Game game = new Game();
         private int width=400;
+        private int height=width;
         private int increment=width/8;
-        private int height=400;
         private VBox rows = new VBox();
 
         
@@ -100,7 +99,7 @@ public class viewBoard extends Application {
         return piece;
     }
     
-    public Square[][] getBoard()
+    public static Square[][] getBoard()
     {
         return board;
     }
@@ -119,7 +118,7 @@ public class viewBoard extends Application {
         int     x=0, 
                 y=0,
                 increment=width/8; //width and height must be divisible by 8
-                game.setBoard(board);
+               
      
 
             int row=0;

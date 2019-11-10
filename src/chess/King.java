@@ -19,7 +19,7 @@ public class King extends Piece {
         super(colorPiece);
     }
     
-public void possibleMove(int t, int z, String colorBorder, Square[][] board){
+public void possibleMove(int t, int z, String colorBorder){
     int upOne,downOne, leftOne, rightOne;
 
             if(color.equals("black"))
@@ -46,42 +46,42 @@ public void possibleMove(int t, int z, String colorBorder, Square[][] board){
             
             if(isValid(leftOne,upOne) && !board[t][z].getPiece().color.equals(board[leftOne][upOne].getPiece().color))
             {
-                        board[leftOne][upOne].getPiece().setBorder(leftOne, upOne, colorBorder, board);
+                        board[leftOne][upOne].getPiece().setBorder(leftOne, upOne, colorBorder);
                         possible.offer(new int[]{leftOne,upOne});
             }
             if(isValid(rightOne,upOne) && !board[t][z].getPiece().color.equals(board[rightOne][upOne].getPiece().color))
             {
-                        board[rightOne][upOne].getPiece().setBorder(rightOne, upOne, colorBorder, board);
+                        board[rightOne][upOne].getPiece().setBorder(rightOne, upOne, colorBorder);
                         possible.offer(new int[]{rightOne,upOne});
             }
             if(isValid(leftOne,downOne) && !board[t][z].getPiece().color.equals(board[leftOne][downOne].getPiece().color))
             {
-                        board[leftOne][downOne].getPiece().setBorder(leftOne, downOne, colorBorder, board);
+                        board[leftOne][downOne].getPiece().setBorder(leftOne, downOne, colorBorder);
                         possible.offer(new int[]{leftOne,downOne});
             }
             if(isValid(rightOne,downOne) && !board[t][z].getPiece().color.equals(board[rightOne][downOne].getPiece().color))
             {
-                        board[rightOne][downOne].getPiece().setBorder(rightOne, downOne, colorBorder, board);
+                        board[rightOne][downOne].getPiece().setBorder(rightOne, downOne, colorBorder);
                         possible.offer(new int[]{rightOne,downOne});
             }
             if(isValid(t,upOne) && !board[t][z].getPiece().color.equals(board[t][upOne].getPiece().color))
             {
-                        board[t][upOne].getPiece().setBorder(t, upOne, colorBorder, board);
+                        board[t][upOne].getPiece().setBorder(t, upOne, colorBorder);
                         possible.offer(new int[]{t,upOne});
             }
             if(isValid(t,downOne) && !board[t][z].getPiece().color.equals(board[t][downOne].getPiece().color))
             {
-                        board[t][upOne].getPiece().setBorder(t, downOne, colorBorder, board);
+                        board[t][upOne].getPiece().setBorder(t, downOne, colorBorder);
                         possible.offer(new int[]{t,downOne});
             }
             if(isValid(leftOne,z) && !board[t][z].getPiece().color.equals(board[leftOne][z].getPiece().color))
             {
-                        board[leftOne][upOne].getPiece().setBorder(leftOne, z, colorBorder, board);
+                        board[leftOne][upOne].getPiece().setBorder(leftOne, z, colorBorder);
                         possible.offer(new int[]{leftOne,z});
             }
             if(isValid(rightOne,z) && !board[t][z].getPiece().color.equals(board[rightOne][z].getPiece().color))
             {
-                        board[rightOne][z].getPiece().setBorder(rightOne, z, colorBorder, board);
+                        board[rightOne][z].getPiece().setBorder(rightOne, z, colorBorder);
                         possible.offer(new int[]{rightOne,z});
             }
 }
@@ -113,42 +113,42 @@ int upOne,downOne, leftOne, rightOne;
             
             if(isValid(leftOne,upOne) && !board[t][z].getPiece().color.equals(board[leftOne][upOne].getPiece().color))
             {
-                        board[leftOne][upOne].getPiece().setBorder(leftOne, upOne, "black", board);
+                        board[leftOne][upOne].getPiece().setBorder(leftOne, upOne, "black");
                         possible.offer(new int[]{leftOne,upOne});
             }
             if(isValid(rightOne,upOne) && !board[t][z].getPiece().color.equals(board[rightOne][upOne].getPiece().color))
             {
-                        board[rightOne][upOne].getPiece().setBorder(rightOne, upOne, "black", board);
+                        board[rightOne][upOne].getPiece().setBorder(rightOne, upOne, "black");
                         possible.offer(new int[]{rightOne,upOne});
             }
             if(isValid(leftOne,downOne) && !board[t][z].getPiece().color.equals(board[leftOne][downOne].getPiece().color))
             {
-                        board[leftOne][downOne].getPiece().setBorder(leftOne, downOne, "black", board);
+                        board[leftOne][downOne].getPiece().setBorder(leftOne, downOne, "black");
                         possible.offer(new int[]{leftOne,downOne});
             }
             if(isValid(rightOne,downOne) && !board[t][z].getPiece().color.equals(board[rightOne][downOne].getPiece().color))
             {
-                        board[rightOne][downOne].getPiece().setBorder(rightOne, downOne, "black", board);
+                        board[rightOne][downOne].getPiece().setBorder(rightOne, downOne, "black");
                         possible.offer(new int[]{rightOne,downOne});
             }
             if(isValid(t,upOne) && !board[t][z].getPiece().color.equals(board[t][upOne].getPiece().color))
             {
-                        board[t][upOne].getPiece().setBorder(t, upOne, "black", board);
+                        board[t][upOne].getPiece().setBorder(t, upOne, "black");
                         possible.offer(new int[]{t,upOne});
             }
             if(isValid(t,downOne) && !board[t][z].getPiece().color.equals(board[t][downOne].getPiece().color))
             {
-                        board[t][upOne].getPiece().setBorder(t, downOne, "black", board);
+                        board[t][upOne].getPiece().setBorder(t, downOne, "black");
                         possible.offer(new int[]{t,downOne});
             }
             if(isValid(leftOne,z) && !board[t][z].getPiece().color.equals(board[leftOne][z].getPiece().color))
             {
-                        board[leftOne][upOne].getPiece().setBorder(leftOne, z, "black", board);
+                        board[leftOne][upOne].getPiece().setBorder(leftOne, z, "black");
                         possible.offer(new int[]{leftOne,z});
             }
             if(isValid(rightOne,z) && !board[t][z].getPiece().color.equals(board[rightOne][z].getPiece().color))
             {
-                        board[rightOne][z].getPiece().setBorder(rightOne, z, "black", board);
+                        board[rightOne][z].getPiece().setBorder(rightOne, z, "black");
                         possible.offer(new int[]{rightOne,z});
             }
 }

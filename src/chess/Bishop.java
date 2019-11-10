@@ -25,46 +25,46 @@ Bishop(String colorPiece)
     }
     
     
-        public void helperStackBlack(int t, int z, int x, int y, int direction, Square[][] board, String border)
+        public void helperStackBlack(int t, int z, int x, int y, int direction, String border)
     {
         if(!isValid(x,y) || board[t][z].getPiece().color.equals(board[x][y].getPiece().color) )
                 return;
         
     switch (direction) {
         case 0:
-            board[x][y].getPiece().setBorder(x, y, border, board);
+            board[x][y].getPiece().setBorder(x, y, border);
             possible.offer(new int[]{x,y});
             if(!board[t][z].getPiece().color.equals(board[x][y].getPiece().color) && !board[x][y].getPiece().isEmpty())
                 return;
-            helperStackBlack(t, z, x+1, y+1, 0, board, border);
+            helperStackBlack(t, z, x+1, y+1, 0, border);
             break;
         case 1:
-            board[x][y].getPiece().setBorder(x, y, border, board);
+            board[x][y].getPiece().setBorder(x, y, border);
             possible.offer(new int[]{x,y});
             if(!board[t][z].getPiece().color.equals(board[x][y].getPiece().color) && !board[x][y].getPiece().isEmpty())
                 return;
-            helperStackBlack(t, z, x+1, y-1, 1, board, border);
+            helperStackBlack(t, z, x+1, y-1, 1, border);
             break;
         case 2:
-            board[x][y].getPiece().setBorder(x, y, border, board);
+            board[x][y].getPiece().setBorder(x, y, border);
             possible.offer(new int[]{x,y});
             if(!board[t][z].getPiece().color.equals(board[x][y].getPiece().color) && !board[x][y].getPiece().isEmpty())
                 return;
-            helperStackBlack(t, z, x-1, y-1, 2, board, border);
+            helperStackBlack(t, z, x-1, y-1, 2, border);
             break;
         case 3:
-            board[x][y].getPiece().setBorder(x, y, border, board);
+            board[x][y].getPiece().setBorder(x, y, border);
             possible.offer(new int[]{x,y});
             if(!board[t][z].getPiece().color.equals(board[x][y].getPiece().color) && !board[x][y].getPiece().isEmpty())
                 return;
-            helperStackBlack(t, z, x-1, y+1, 3, board, border);
+            helperStackBlack(t, z, x-1, y+1, 3, border);
             break;
         default:
             break;
     }
     }
     
-    public void helperStackWhite(int t, int z, int x, int y, int direction, Square[][] board, String border)
+    public void helperStackWhite(int t, int z, int x, int y, int direction, String border)
     {   
         
         if(!isValid(x,y) || board[t][z].getPiece().color.equals(board[x][y].getPiece().color) )
@@ -72,55 +72,55 @@ Bishop(String colorPiece)
         
     switch (direction) {
         case 0:
-            board[x][y].getPiece().setBorder(x, y, border, board);
+            board[x][y].getPiece().setBorder(x, y, border);
             possible.offer(new int[]{x,y});
             if(!board[t][z].getPiece().color.equals(board[x][y].getPiece().color) && !board[x][y].getPiece().isEmpty())
                 return;
-            helperStackWhite(t, z, x+1, y-1, 0, board, border);
+            helperStackWhite(t, z, x+1, y-1, 0, border);
             break;
         case 1:
-            board[x][y].getPiece().setBorder(x, y, border, board);
+            board[x][y].getPiece().setBorder(x, y, border);
             possible.offer(new int[]{x,y});
             if(!board[t][z].getPiece().color.equals(board[x][y].getPiece().color) && !board[x][y].getPiece().isEmpty())
                 return;
-            helperStackWhite(t, z, x+1, y+1, 1, board, border);
+            helperStackWhite(t, z, x+1, y+1, 1, border);
             break;
         case 2:
-            board[x][y].getPiece().setBorder(x, y, border, board);
+            board[x][y].getPiece().setBorder(x, y, border);
             possible.offer(new int[]{x,y});
             if(!board[t][z].getPiece().color.equals(board[x][y].getPiece().color) && !board[x][y].getPiece().isEmpty())
                 return;
-            helperStackWhite(t, z, x-1, y+1, 2, board, border);
+            helperStackWhite(t, z, x-1, y+1, 2, border);
             break;
         case 3:
-            board[x][y].getPiece().setBorder(x, y, border, board);
+            board[x][y].getPiece().setBorder(x, y, border);
             possible.offer(new int[]{x,y});
             if(!board[t][z].getPiece().color.equals(board[x][y].getPiece().color) && !board[x][y].getPiece().isEmpty())
                 return;
-            helperStackWhite(t, z, x-1, y-1, 3, board, border);
+            helperStackWhite(t, z, x-1, y-1, 3, border);
             break;
         default:
             break;
     }
     }
     @Override
-    public void possibleMove(int t, int z, String colorBorder, Square[][] board){
+    public void possibleMove(int t, int z, String colorBorder){
 
             if(color.equals("black"))
             {
                 
                                //col, row, left/right, up/down 
-                helperStackBlack(t, z, t+1, z+1, 0, board, colorBorder); // up,right
-                helperStackBlack(t, z, t+1, z-1, 1, board, colorBorder); // down, right
-                helperStackBlack(t, z, t-1, z-1, 2, board, colorBorder); // left, down
-                helperStackBlack(t, z, t-1, z+1, 3, board, colorBorder);
+                helperStackBlack(t, z, t+1, z+1, 0, colorBorder); // up,right
+                helperStackBlack(t, z, t+1, z-1, 1, colorBorder); // down, right
+                helperStackBlack(t, z, t-1, z-1, 2, colorBorder); // left, down
+                helperStackBlack(t, z, t-1, z+1, 3, colorBorder);
             } 
             else if(color.equals("white")){
                 
-                helperStackWhite(t, z, t+1, z-1, 0, board, colorBorder);
-                helperStackWhite(t, z, t+1, z+1, 1, board, colorBorder);
-                helperStackWhite(t, z, t-1, z+1, 2, board, colorBorder);
-                helperStackWhite(t, z, t-1, z-1, 3, board, colorBorder);
+                helperStackWhite(t, z, t+1, z-1, 0, colorBorder);
+                helperStackWhite(t, z, t+1, z+1, 1, colorBorder);
+                helperStackWhite(t, z, t-1, z+1, 2, colorBorder);
+                helperStackWhite(t, z, t-1, z-1, 3, colorBorder);
             }
 
         }
@@ -131,17 +131,17 @@ Bishop(String colorPiece)
             {
                 
                                //col, row, left/right, up/down 
-                helperStackBlack(t, z, t+1, z+1, 0, board, "black"); // up,right
-                helperStackBlack(t, z, t+1, z-1, 1, board, "black"); // down, right
-                helperStackBlack(t, z, t-1, z-1, 2, board, "black"); // left, down
-                helperStackBlack(t, z, t-1, z+1, 3, board, "black");
+                helperStackBlack(t, z, t+1, z+1, 0, "black"); // up,right
+                helperStackBlack(t, z, t+1, z-1, 1, "black"); // down, right
+                helperStackBlack(t, z, t-1, z-1, 2, "black"); // left, down
+                helperStackBlack(t, z, t-1, z+1, 3, "black");
             } 
             else if(color.equals("white")){
                 
-                helperStackWhite(t, z, t+1, z-1, 0, board, "black");
-                helperStackWhite(t, z, t+1, z+1, 1, board, "black");
-                helperStackWhite(t, z, t-1, z+1, 2, board, "black");
-                helperStackWhite(t, z, t-1, z-1, 3, board, "black");
+                helperStackWhite(t, z, t+1, z-1, 0, "black");
+                helperStackWhite(t, z, t+1, z+1, 1, "black");
+                helperStackWhite(t, z, t-1, z+1, 2, "black");
+                helperStackWhite(t, z, t-1, z-1, 3, "black");
             }
 
     }

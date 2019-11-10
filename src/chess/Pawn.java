@@ -20,40 +20,9 @@ Pawn(String colorPiece)
         super(colorPiece);
         hasMoved=false;
     }
-    
+     
     @Override
-    public boolean move(int posX, int posY, Stage newWindow, boolean playerOneTurn, int lastX, int lastY)
-    {
-       while(!possible.isEmpty())
-        {
-           int[] points = possible.poll();
-            if(posX != points[0] || posY != points[1])
-            continue;
-        if(playerOneTurn && board[lastX][lastY].getPiece().color.equals("white"))
-        {
-            System.out.println("Player Two's Turn");
-            String updated = board[lastX][lastY].getPiece().updatePiece;
-            board[lastX][lastY].setPiece(" ");
-            board[posX][posY].setPiece(updated);
-            playerOneTurn=false;
-            hasMoved=true;
-        }  
-        else if(!playerOneTurn && board[lastX][lastY].getPiece().color.equals("black") )
-        {
-            System.out.println("Player One's Turn");
-            String updated = board[lastX][lastY].getPiece().updatePiece;
-            board[lastX][lastY].setPiece(" ");
-            board[posX][posY].setPiece(updated);
-            playerOneTurn=true;
-            hasMoved=true;
-        }
-        }
-        newWindow.close(); 
-        return playerOneTurn;
-    }
-    
-    @Override
-    public void possibleMove(int t, int z, String colorBorder, Square[][] board)
+    public void possibleMove(int t, int z, String colorBorder)
     {
         if(!hasMoved)
         {
@@ -80,22 +49,22 @@ Pawn(String colorPiece)
             }
             if(isValid(diagLeft,upOne) && !board[diagLeft][upOne].getPiece().isEmpty() && !board[t][z].getPiece().color.equals(board[diagLeft][upOne].getPiece().color))
             {
-                        board[diagLeft][upOne].getPiece().setBorder(diagLeft, upOne, colorBorder, board);
+                        board[diagLeft][upOne].getPiece().setBorder(diagLeft, upOne, colorBorder);
                         possible.offer(new int[]{diagLeft,upOne});
             }
             if(isValid(diagRight,upOne) && !board[diagRight][upOne].getPiece().isEmpty() && !board[t][z].getPiece().color.equals(board[diagRight][upOne].getPiece().color))
             {
-                        board[diagRight][upOne].getPiece().setBorder(diagRight, upOne, colorBorder, board);
+                        board[diagRight][upOne].getPiece().setBorder(diagRight, upOne, colorBorder);
                         possible.offer(new int[]{diagRight,upOne});
             }
             if(isValid(t,upOne) && board[t][upOne].getPiece().isEmpty())
             {
-                        board[t][upOne].getPiece().setBorder(t, upOne, colorBorder, board);
+                        board[t][upOne].getPiece().setBorder(t, upOne, colorBorder);
                         possible.offer(new int[]{t,upOne});
             }
             if((z == 1 || z == 6) && isValid(t,upTwo)&& board[t][upTwo].getPiece().isEmpty())
             {
-                board[t][upTwo].getPiece().setBorder(t, upTwo, colorBorder, board);
+                board[t][upTwo].getPiece().setBorder(t, upTwo, colorBorder);
   
                         possible.offer(new int[]{t,upTwo});
             }
@@ -129,13 +98,13 @@ Pawn(String colorPiece)
                 diagRight=8;
             }
             if(isValid(diagLeft,upOne) && !board[diagLeft][upOne].getPiece().isEmpty() && !board[t][z].getPiece().color.equals(board[diagLeft][upOne].getPiece().color))
-                board[diagLeft][upOne].getPiece().setBorder(diagLeft, upOne, "black", board);
+                board[diagLeft][upOne].getPiece().setBorder(diagLeft, upOne, "black");
             if(isValid(diagRight,upOne) && !board[diagRight][upOne].getPiece().isEmpty() && !board[t][z].getPiece().color.equals(board[diagRight][upOne].getPiece().color))
-                board[diagRight][upOne].getPiece().setBorder(diagRight, upOne, "black", board);
+                board[diagRight][upOne].getPiece().setBorder(diagRight, upOne, "black");
             if(isValid(t,upOne) && board[t][upOne].getPiece().isEmpty())
-                board[t][upOne].getPiece().setBorder(t, upOne, "black", board);
+                board[t][upOne].getPiece().setBorder(t, upOne, "black");
             if((z == 1 || z == 6) && isValid(t,upTwo)&& board[t][upTwo].getPiece().isEmpty())
-                board[t][upTwo].getPiece().setBorder(t, upTwo, "black", board);
+                board[t][upTwo].getPiece().setBorder(t, upTwo, "black");
         }
     }
     

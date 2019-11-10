@@ -10,6 +10,7 @@ import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.Queue;
 import java.util.Set;
+import javafx.animation.PauseTransition;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Pos;
@@ -21,13 +22,18 @@ import javafx.scene.layout.Background;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 
 /**
  *
  * @author coleb29
  */
+
+/**
+ * Class game handles user input via mouse and win conditions for Chess
+*/
 public class Game {
-    private Square[][] board;
+    private Square[][] board=viewBoard.getBoard();
     private Scene scene;
     private boolean isSelected= false;
     private int lastX, lastY, posX, posY;
@@ -41,16 +47,13 @@ public class Game {
     private Queue<int[]> checkQueue = new LinkedList<>();
    
     
- 
-    public void setBoard(Square[][] board){
-        this.board=board;
-    }
-    
     public void setScene(Scene scene)
     {
         this.scene=scene;
     }
-    
+    /**
+     handleClicks is passed the increment [ window size ] and computes if the click corresponds to a square on the board
+     */
     public void handleClicks(int increment)
     {
         scene.addEventFilter(MouseEvent.MOUSE_PRESSED, new EventHandler<MouseEvent>() {
@@ -66,16 +69,19 @@ public class Game {
                         selectedSquare(posX, posY); 
                }
                else{
-                   System.out.println("That is not a valid click.");
+                   generalPopUp("That is not a valid click.");
                }
             }
             });
     }
     
+    
+    /**
+     selectedSquare is passed valid coordinates from handleClicks. If the square has a piece on it then it highlights the possible moves for it
+     * if it receives a second click, will attempt to move there.
+     */
     public void selectedSquare(int posX, int posY)
     {
-        //need to make it only run once
-        board[posX][posY].getPiece().setBoard(board);
         if(!isSelected){
                         Background original = board[posX][posY].getBox().getBackground();
                         board[posX][posY].getBox().setStyle(
@@ -87,11 +93,11 @@ public class Game {
                         isSelected=true;
                         lastX=posX;
                         lastY=posY;
-                        board[posX][posY].getPiece().possibleMove(posX, posY, "yellow", board);
+                        board[posX][posY].getPiece().possibleMove(posX, posY, "yellow");
                         previousPiece=board[posX][posY].getPiece();
                         }
                         else{
-                        createPop(posX, posY);
+                        movePopUp(posX, posY);
                         previousPiece.removeMove(lastX, lastY);
                         resetBackground(lastX, lastY);
                         isSelected=false;
@@ -107,7 +113,27 @@ public class Game {
                         );
                         board[lastX][lastY].getBox().setBackground(original);
     }
-    public void createPop(int posX, int posY)
+    
+    public void generalPopUp(String message)
+    {
+            Label secondLabel = new Label(message);
+
+                Stage newWindow = new Stage();
+                newWindow.setTitle("Chess");
+                Scene secondScene = new Scene(secondLabel, 400, 50);
+                newWindow.setScene(secondScene);
+                newWindow.setX(stage.getX());
+                newWindow.setY(stage.getY()-75);
+                newWindow.show();
+                PauseTransition delay = new PauseTransition(Duration.seconds(1));
+                delay.setOnFinished( event -> newWindow.close() );
+                delay.play();
+    }
+    
+    /**
+     movePopUp handles the actual move conditions, the user must click the confirm button for a move to be made.
+     */
+    public void movePopUp(int posX, int posY)
     {
             Label secondLabel = new Label("You have chosen to move the "+ board[lastX][lastY].getPiece().updatePiece  + " at " + board[lastX][lastY].getLocation(board[lastX][lastY].getYPosition(),board[lastX][lastY].getXPosition()) + " to "+ board[posX][posY].getLocation(board[posX][posY].getYPosition(),board[posX][posY].getXPosition()) );
             Button confirmButton = new Button();
@@ -174,7 +200,12 @@ public class Game {
     {
         this.stage=stage;
     }
-    
+    /**
+     * determineKing
+     * 
+     * @param checkedKing : color of King
+     * @return the coordinates of the king
+     */
     public int[] determineKing(String checkedKing)
     {
         int[] position;
@@ -197,7 +228,7 @@ public class Game {
     {
             if(color.equals("black"))
             {
-                board[blackKing[0]][blackKing[1]].getPiece().possibleMove(blackKing[0], blackKing[1], "black", board);
+                board[blackKing[0]][blackKing[1]].getPiece().possibleMove(blackKing[0], blackKing[1], "black");
                 while(!board[blackKing[0]][blackKing[1]].getPiece().possible.isEmpty())
                 {
                     int test[] = board[blackKing[0]][blackKing[1]].getPiece().possible.poll();
@@ -208,6 +239,9 @@ public class Game {
             return false;
     }
     
+    /**
+     moveCausesCheck determines if moving a piece will put the king in check, if it does it will not allow them to move.
+     */
     public boolean moveCausesCheck(String color)
     {
         boolean causesCheck=false;
@@ -244,7 +278,7 @@ public class Game {
         boolean canMove=false;
         int[] position=determineKing(checkedKing);
 
-            board[position[0]][position[1]].getPiece().possibleMove(position[0], position[1], "black", board);
+            board[position[0]][position[1]].getPiece().possibleMove(position[0], position[1], "black");
             if(board[position[0]][position[1]].getPiece().possible.isEmpty())
                 return false;
             Queue<int[]> storage= new LinkedList<>(board[position[0]][position[1]].getPiece().possible);
@@ -255,7 +289,7 @@ public class Game {
             {
                int[] possibles = storage.poll();
                canBeTouched=checkEverything(possibles, 'n', board[position[0]][position[1]].getPiece().color);
-               System.out.println("canBeTouched: " + !moveIntoCheck(possibles[0],possibles[1], "black"));
+               //System.out.println("canBeTouched: " + !moveIntoCheck(possibles[0],possibles[1], "black"));
                if(!canBeTouched && !moveIntoCheck(possibles[0],possibles[1], "black")) //&& moveIntoCheck(possibles[0],possibles[1])
                    canMove=true;
             }
@@ -279,7 +313,7 @@ public class Game {
             position=checkQueue.poll();
             boolean isKing=false;
 
-            System.out.println(position[0]+ " " +position[1] + " " + board[position[0]][position[1]].getPiece().updatePiece);
+            //System.out.println(position[0]+ " " +position[1] + " " + board[position[0]][position[1]].getPiece().updatePiece);
             
                 canKill=checkEverything(position, 'n', board[position[0]][position[1]].getPiece().color)  && !moveIntoCheck(position[0],position[1], "black");
         }
@@ -287,11 +321,12 @@ public class Game {
         return canKill;
     }
     
+    //Calculates distance between squares, used for pieceInPathOfCheck. Effectively gets rid of potential moves in the opposite direction of the king.
     public double distance(int x2, int x1, int y2, int y1)
     {
         return Math.sqrt(Math.pow(x2-x1,2)+Math.pow(y2-y1,2));
     }
-    
+    //Determines if you can block the piece causing check with another
     public boolean pieceInPathOfCheck(String checkedKing)
     {
         boolean pathCheck=false;
@@ -307,7 +342,7 @@ public class Game {
                 //Piece that is checking
                 position=checkQueue.poll();
                 //Get piece at position then check its possible position to see if king is in check.
-                board[position[0]][position[1]].getPiece().possibleMove(position[0], position[1], "black", board);
+                board[position[0]][position[1]].getPiece().possibleMove(position[0], position[1], "black");
                 pathCheck=false;
                 actualDistance=distance(king[0], position[0], king[1], position[1]);
 
@@ -341,19 +376,20 @@ public class Game {
             if(!kingMoveFromCheck("white") && !piecesCausingCheckKilled("white") && !pieceInPathOfCheck("white"))
             {
                 System.out.println("Black Wins!\nCheckmate!");
+                generalPopUp("Black Wins!\nCheckmate!");
                 return;
             }
             else
-                System.out.println("White Check!");
+                generalPopUp("White Check!");
         }
         if(blackCheck)
         {
             if(!kingMoveFromCheck("black") && !piecesCausingCheckKilled("black") && !pieceInPathOfCheck("black"))
             {
-                System.out.println("White Wins!\nCheckmate!");
+                generalPopUp("White Wins!\nCheckmate!");
             }
             else
-                System.out.println("Black Check!");
+                generalPopUp("Black Check!");
         }
         }
     }
@@ -364,7 +400,7 @@ public class Game {
 
        if(moveCausesCheck(board[lastX][lastY].getPiece().color)) // moveIntoCheck(posX, posY) || 
        {
-           System.out.println("You cannot move here due to it causing check.");
+           generalPopUp("You cannot move here due to it causing check.");
            return;
        }
 
@@ -372,6 +408,10 @@ public class Game {
       
       if(playerOneTurn != turn)
        {
+           if(playerOneTurn)
+               generalPopUp("Player One's Turn");
+           else
+               generalPopUp("Player Two's Turn");
            //Update King position when moved
            if(previousPiece.imageName.equals("blackKing"))
                blackKing= new int[]{posX,posY};
@@ -382,7 +422,19 @@ public class Game {
            checkForCheck('n');
        }
     }
-    
+   /**
+ checkEverything
+
+* This will pass every piece that is not the same color to checkPossible
+* 
+ * destPoints are the coordinates for the position being attacked
+ * 
+ * flag 
+ *  n : normal operation
+ *  q : queue the coordinates of attacking piece
+ *  i : ignore king as potential piece
+ *  o : override used to temporarily test if king can move in checked scenario
+ */ 
     public boolean checkEverything(int[] dest, char flag, String colored){
         boolean canBeReached=false;
         for(int i=0;i<8; i++)
@@ -410,7 +462,7 @@ public class Game {
                         if(whiteKing[0] == j || whiteKing[1] == i)
                             continue;
                     }
-                    board[j][i].getPiece().possibleMove(j,i,"black", board);
+                    board[j][i].getPiece().possibleMove(j,i,"black");
                     canBeReached=checkPossible(board[j][i].getPiece(), new int[]{j,i}, dest, canBeReached, flag);
                     if(flag=='o')
                     {
@@ -422,7 +474,18 @@ public class Game {
         }
         return canBeReached;
     }
-
+/**
+ checkPossible
+ * prevPiece: is the potential attacking piece
+ * prevPiecePoint: is the coordinates of the attacking piece
+ * destPoints are the coordinates for the position being attacked
+ * canBeReached returns true if the prevPiece can reach the destPoints
+ * flag 
+ *  n : normal operation
+ *  q : queue the coordinates of attacking piece
+ *  i : ignore king as potential piece
+ *  o : override used to temporarily test if king can move in checked scenario
+ */
     public boolean checkPossible(Piece prevPiece, int[] prevPiecePoint, int[] destPoints, boolean canBeReached, char flag)
     {
         while(!prevPiece.possible.isEmpty())
@@ -434,8 +497,6 @@ public class Game {
                 continue;
             if(!prevPiece.color.equals(board[destPoints[0]][destPoints[1]].getPiece().color))
             {
-                //System.out.println(prevPiece.color + board[destPoints[0]][destPoints[1]].getPiece().color);
-                //System.out.println("points " + points[0] + " " + points[1] + " destPoints " + destPoints[0] +" " + destPoints[1] + prevPiece.imageName);
                 canBeReached=true;
             if(flag == 'q')
             {

@@ -23,7 +23,7 @@ public abstract class Piece {
     protected String color;
     protected String pieceName;
     protected String imageName;
-    protected Square[][] board;
+    protected static Square[][] board=viewBoard.getBoard();
     protected String updatePiece;
     protected Queue<int[]> possible;
     protected Boolean hasMoved;
@@ -58,6 +58,8 @@ public abstract class Piece {
             System.out.println("File does not exist.");
     }
     
+    
+    //verifies move is possible for each piece, if it is returns the new player. Otherwise returns current player
     public boolean move(int posX, int posY, Stage newWindow, boolean playerOneTurn, int lastX, int lastY){
     while(!possible.isEmpty())
         {
@@ -66,7 +68,6 @@ public abstract class Piece {
             continue;
         if(playerOneTurn && board[lastX][lastY].getPiece().color.equals("white"))
         {
-            System.out.println("Player Two's Turn");
             String updated = board[lastX][lastY].getPiece().updatePiece;
             board[lastX][lastY].setPiece(" ");
             board[posX][posY].setPiece(updated);
@@ -75,7 +76,6 @@ public abstract class Piece {
         }  
         else if(!playerOneTurn && board[lastX][lastY].getPiece().color.equals("black") )
         {
-            System.out.println("Player One's Turn");
             String updated = board[lastX][lastY].getPiece().updatePiece;
             board[lastX][lastY].setPiece(" ");
             board[posX][posY].setPiece(updated);
@@ -101,17 +101,13 @@ public abstract class Piece {
         return t<8 && t>=0 && z<8 && z>=0;
     }
     
-    public void setBoard(Square[][] board)
-    {
-        this.board=board;
-    }
     
-    public abstract void possibleMove(int t, int z, String colorBorder, Square[][] board);
+    public abstract void possibleMove(int t, int z, String colorBorder);
     
     public abstract void removeMove(int t, int z);
  
     
-    public void setBorder(int t, int z, String borderColor, Square[][] board)
+    public void setBorder(int t, int z, String borderColor)
     {
     Background original = board[t][z].getBox().getBackground();
                         board[t][z].getBox().setStyle(
