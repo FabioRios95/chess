@@ -49,6 +49,7 @@ public abstract class Piece {
         openFile();
     }
     
+    //Retrieves the chess image based on imageName from the directory.
     private void openFile()
     {
         File file = new File("./Images/" + this.imageName +".png");
@@ -96,17 +97,17 @@ public abstract class Piece {
         return imageName.equals("empty");
     }
     
+//Determines if the coordinates t,z are a valid position on chess board.
     public boolean isValid(int t, int z)
     {
         return t<8 && t>=0 && z<8 && z>=0;
     }
     
-    
     public abstract void possibleMove(int t, int z, String colorBorder);
     
     public abstract void removeMove(int t, int z);
  
-    
+   
     public void setBorder(int t, int z, String borderColor)
     {
     Background original = board[t][z].getBox().getBackground();

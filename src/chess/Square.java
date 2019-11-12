@@ -52,7 +52,7 @@ public class Square {
     public VBox getBox(){
         return vbox;
     }
-    
+    //Creates the array for chess positioning when moving. For instance knight to E3
     private static void createMap()
     {
         position = new String[8][8];
@@ -82,6 +82,8 @@ public class Square {
     {
         return position[x][y];
     }
+    
+    //Creates the piece and puts the image on top of the square. 
     public final void setPiece(String piece){
         switch (piece) {
             case "black King":
