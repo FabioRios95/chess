@@ -178,6 +178,7 @@ public class Game {
             public void handle(ActionEvent e) 
             {
                 Move(posX,posY, newWindow);
+                newWindow.close();
             } 
         }; 
              EventHandler<ActionEvent> close =  
@@ -406,13 +407,13 @@ public class Game {
            generalPopUp("You cannot move here due to it causing check.");
            return;
        }
-       System.out.println(board[posX][posY].getPiece().hasMoved + " PreMove" + board[posX][posY].getPiece().imageName);
+       //System.out.println(board[posX][posY].getPiece().hasMoved + " PreMove" + board[posX][posY].getPiece().imageName);
         playerOneTurn = previousPiece.move(posX, posY, newWindow, playerOneTurn, lastX, lastY);
         
         //Was the move successful. 
       if(playerOneTurn != turn)
        {
-           System.out.println(board[posX][posY].getPiece().hasMoved + " AfterMove");
+           //System.out.println(board[posX][posY].getPiece().hasMoved + " AfterMove");
            if(playerOneTurn)
                generalPopUp("Player One's Turn");
            else

@@ -5,6 +5,9 @@
  */
 package chess;
 
+import static chess.Piece.board;
+import javafx.stage.Stage;
+
 
 /**
  *
@@ -14,6 +17,73 @@ public class King extends Piece {
     King(String colorPiece)
     {
         super(colorPiece);
+    }
+    /**
+     All space between king and rook empty on King Side, for castling
+     */
+    public boolean allSpaceBetweenKingAndRookEmptyKS(String color)
+    {
+        Boolean answer=false;
+        if("white".equals(color))
+        {
+            if(board[5][7].getPiece().isEmpty() && board[6][7].getPiece().isEmpty())
+                answer=true;
+        }
+        else{
+            if(board[5][0].getPiece().isEmpty() && board[6][0].getPiece().isEmpty())
+                answer=true;
+        }
+        
+        return answer;
+    }
+    
+     /**
+     All space between king and rook empty on Queen Side, for castling
+     */
+    public boolean allSpaceBetweenKingAndRookEmptyQS(String color)
+    {
+        Boolean answer=false;
+        if("white".equals(color))
+        {
+            if(board[1][7].getPiece().isEmpty() && board[2][7].getPiece().isEmpty() && board[3][7].getPiece().isEmpty())
+                answer=true;
+        }
+        else{
+            if(board[1][0].getPiece().isEmpty() && board[2][0].getPiece().isEmpty() && board[3][7].getPiece().isEmpty())
+                answer=true;
+        }
+        
+        return answer;
+    }
+    
+     //verifies move is possible for each piece, if it is returns the new player. Otherwise returns current player, overrides piece
+    // because it needs to handle castling. 
+    @Override
+    public boolean move(int posX, int posY, Stage newWindow, boolean playerOneTurn, int lastX, int lastY){
+    while(!possible.isEmpty())
+        {
+           int[] points = possible.poll();
+            if(posX != points[0] || posY != points[1])
+            continue;
+        if(playerOneTurn && board[lastX][lastY].getPiece().color.equals("white"))
+        {
+            String updated = board[lastX][lastY].getPiece().updatePiece;
+            board[lastX][lastY].setPiece(" "); // set old square to empty
+            board[posX][posY].setPiece(updated); // move piece to new square
+            board[posX][posY].getPiece().hasMoved=true;
+            playerOneTurn=false;
+        }  
+        else if(!playerOneTurn && board[lastX][lastY].getPiece().color.equals("black") )
+        {
+            String updated = board[lastX][lastY].getPiece().updatePiece;
+            board[lastX][lastY].setPiece(" ");
+            board[posX][posY].setPiece(updated);
+            board[posX][posY].getPiece().hasMoved=true;
+            playerOneTurn=true;
+        }
+        }
+        newWindow.close(); 
+        return playerOneTurn;
     }
     
 @Override

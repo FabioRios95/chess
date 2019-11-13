@@ -6,6 +6,11 @@
 package chess;
 
 
+import javafx.collections.FXCollections;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
+import javafx.scene.Scene;
+import javafx.scene.control.ComboBox;
 import javafx.stage.Stage;
 
 
@@ -19,12 +24,84 @@ Pawn(String colorPiece)
     {
         super(colorPiece);
     }
-     
+
+private String updated="";
+
+
+private void createPopUp(String color){
+
+ String optionalPieces[] = 
+                   { "Queen", "Rook", "Bishop", 
+                                   "Knight" }; 
+  
+        // Create a combo box 
+        ComboBox combo_box = 
+                    new ComboBox(FXCollections 
+                              .observableArrayList(optionalPieces)); 
+  
+                Stage newWindow = new Stage();
+                newWindow.setTitle("Promotion");
+                Scene secondScene = new Scene(combo_box, 400, 50);
+                newWindow.setScene(secondScene);
+                newWindow.setX(20);
+                newWindow.setY(20);        // Set on action 
+
+        EventHandler<ActionEvent> event;
+    event = new EventHandler<ActionEvent>() { 
+        public void handle(ActionEvent e)
+        {
+            updated=color+ " "+ combo_box.getValue();
+            newWindow.close();
+        }
+    }; 
+        combo_box.setOnAction(event);         
+        newWindow.showAndWait();
+
+}
+
+   //verifies move is possible for each piece, if it is returns the new player. Otherwise returns current player
+    //Overrides piece because it needs to handle promotions
+@Override    
+public boolean move(int posX, int posY, Stage newWindow, boolean playerOneTurn, int lastX, int lastY){
+    while(!possible.isEmpty())
+        {
+           int[] points = possible.poll();
+            if(posX != points[0] || posY != points[1])
+            continue;
+        if(playerOneTurn && board[lastX][lastY].getPiece().color.equals("white"))
+        {
+            updated = board[lastX][lastY].getPiece().updatePiece;
+            if(posY == 0)
+            {   createPopUp("white");
+                System.out.println("Updated: " +updated);
+            }
+            board[lastX][lastY].setPiece(" "); // set old square to empty
+            board[posX][posY].setPiece(updated); // move piece to new square
+            board[posX][posY].getPiece().hasMoved=true;
+            playerOneTurn=false;
+        }  
+        else if(!playerOneTurn && board[lastX][lastY].getPiece().color.equals("black") )
+        {
+            String updated = board[lastX][lastY].getPiece().updatePiece;
+            if(posY == 0)
+            {   createPopUp("black");
+                System.out.println("Updated: " +updated);
+            }
+            board[lastX][lastY].setPiece(" ");
+            board[posX][posY].setPiece(updated);
+            board[posX][posY].getPiece().hasMoved=true;
+            playerOneTurn=true;
+        }
+        }
+        newWindow.close(); 
+        return playerOneTurn;
+    }
+
+
     @Override
     public void possibleMove(int t, int z, String colorBorder)
     {
-//        if(!hasMoved)
-//        {
+
             int upOne,upTwo, diagLeft, diagRight;
             if(color.equals("black"))
             {
@@ -67,14 +144,13 @@ Pawn(String colorPiece)
   
                         possible.offer(new int[]{t,upTwo});
             }
-        //}
+        
     }
     
         @Override
     public void removeMove(int t, int z)
     {
-//           if(!hasMoved)
-//        {
+
             int upOne,upTwo, diagLeft, diagRight;
             if(color.equals("black"))
             {
@@ -104,7 +180,7 @@ Pawn(String colorPiece)
                 board[t][upOne].getPiece().setBorder(t, upOne, "black");
             if((z == 1 || z == 6) && isValid(t,upTwo)&& board[t][upTwo].getPiece().isEmpty())
                 board[t][upTwo].getPiece().setBorder(t, upTwo, "black");
-        //}
+
     }
     
     
