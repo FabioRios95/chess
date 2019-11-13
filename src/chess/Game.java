@@ -32,19 +32,26 @@ import javafx.util.Duration;
  * Class game handles user input via mouse and win conditions for Chess
 */
 public class Game {
-    private Square[][] board=viewBoard.getBoard();
+    private static Square[][] board=viewBoard.getBoard();
     private Scene scene;
     private boolean isSelected= false;
     private int lastX, lastY, posX, posY;
     private Piece previousPiece;
     private Stage stage;
     private boolean playerOneTurn=true;
-    private int[] blackKing= new int[]{4,0};
-    private int[] whiteKing= new int[]{4,7};
+    private static int[] blackKing= new int[]{4,0};
+    private static int[] whiteKing= new int[]{4,7};
     private boolean blackCheck=false;
     private boolean whiteCheck=false;
     private Queue<int[]> checkQueue = new LinkedList<>();
-   
+  
+    public static int[] getBlackKing(){
+        return blackKing;
+    }
+    
+    public static int[] getWhiteKing(){
+        return whiteKing;
+    }
     
     public void setScene(Scene scene)
     {
@@ -126,7 +133,7 @@ public class Game {
                 newWindow.setX(stage.getX());
                 newWindow.setY(stage.getY()-75);
                 newWindow.show();
-                PauseTransition delay = new PauseTransition(Duration.seconds(1));
+                PauseTransition delay = new PauseTransition(Duration.seconds(2));
                 delay.setOnFinished( event -> newWindow.close() );
                 delay.play();
     }
@@ -379,8 +386,8 @@ public class Game {
         {
             if(!kingMoveFromCheck("white") && !piecesCausingCheckKilled("white") && !pieceInPathOfCheck("white"))
             {
-                System.out.println("Black Wins!\nCheckmate!");
                 generalPopUp("Black Wins!\nCheckmate!");
+                stage.close();
                 return;
             }
             else
@@ -391,6 +398,7 @@ public class Game {
             if(!kingMoveFromCheck("black") && !piecesCausingCheckKilled("black") && !pieceInPathOfCheck("black"))
             {
                 generalPopUp("White Wins!\nCheckmate!");
+                stage.close();
             }
             else
                 generalPopUp("Black Check!");
@@ -401,7 +409,19 @@ public class Game {
     public void Move(int posX, int posY, Stage newWindow){
        boolean turn=playerOneTurn;
        //check to see if this will cause check
-
+ 
+       
+       if(blackCheck && lastX == blackKing[0] && lastY == blackKing[1] &&!kingMoveFromCheck("black"))
+       {
+           generalPopUp("You cannot move here due to it causing check.");
+           return;
+       }
+       if(whiteCheck && lastX == whiteKing[0] && lastY == whiteKing[1] &&!kingMoveFromCheck("white"))
+       {
+           generalPopUp("You cannot move here due to it causing check.");
+           return;
+       }
+       
        if(moveCausesCheck(board[lastX][lastY].getPiece().color)) // moveIntoCheck(posX, posY) || 
        {
            generalPopUp("You cannot move here due to it causing check.");
