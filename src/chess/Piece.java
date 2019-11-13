@@ -26,7 +26,7 @@ public abstract class Piece {
     protected static Square[][] board=viewBoard.getBoard();
     protected String updatePiece;
     protected Queue<int[]> possible;
-    protected Boolean hasMoved;
+    protected Boolean hasMoved=false;
     
     Piece(String colorPiece)
     {
@@ -49,6 +49,12 @@ public abstract class Piece {
         openFile();
     }
     
+    public Boolean getMoved()
+    {
+        return hasMoved;
+    }
+    
+    
     //Retrieves the chess image based on imageName from the directory.
     private void openFile()
     {
@@ -70,18 +76,18 @@ public abstract class Piece {
         if(playerOneTurn && board[lastX][lastY].getPiece().color.equals("white"))
         {
             String updated = board[lastX][lastY].getPiece().updatePiece;
-            board[lastX][lastY].setPiece(" ");
-            board[posX][posY].setPiece(updated);
+            board[lastX][lastY].setPiece(" "); // set old square to empty
+            board[posX][posY].setPiece(updated); // move piece to new square
+            board[posX][posY].getPiece().hasMoved=true;
             playerOneTurn=false;
-            hasMoved=true;
         }  
         else if(!playerOneTurn && board[lastX][lastY].getPiece().color.equals("black") )
         {
             String updated = board[lastX][lastY].getPiece().updatePiece;
             board[lastX][lastY].setPiece(" ");
             board[posX][posY].setPiece(updated);
+            board[posX][posY].getPiece().hasMoved=true;
             playerOneTurn=true;
-            hasMoved=true;
         }
         }
         newWindow.close(); 

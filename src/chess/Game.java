@@ -6,10 +6,9 @@
 package chess;
 
 
-import java.util.HashSet;
+
 import java.util.LinkedList;
 import java.util.Queue;
-import java.util.Set;
 import javafx.animation.PauseTransition;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -114,6 +113,8 @@ public class Game {
                         board[lastX][lastY].getBox().setBackground(original);
     }
     
+    
+    /** Creates a pop up window displaying the argument message that is passed to it. The window lasts one second before closing.*/
     public void generalPopUp(String message)
     {
             Label secondLabel = new Label(message);
@@ -196,6 +197,8 @@ public class Game {
                 newWindow.show();
     }
     
+    
+    //Passes stage from javafx to game class
     public void setStage(Stage stage)
     {
         this.stage=stage;
@@ -296,7 +299,8 @@ public class Game {
             System.out.println("canMove : " + canMove);
             return canMove; 
     }
-    
+    /**piecesCausingCheckKilled determines if you can kill the piece that caused check, if there are more than two pieces causing check
+     it returns false, as you cannot move to both locations. */
     public boolean piecesCausingCheckKilled(String checkedKing)
     {
         boolean canKill=false;
@@ -311,7 +315,6 @@ public class Game {
         while(!checkQueue.isEmpty())
         {
             position=checkQueue.poll();
-            boolean isKing=false;
 
             //System.out.println(position[0]+ " " +position[1] + " " + board[position[0]][position[1]].getPiece().updatePiece);
             
@@ -363,7 +366,7 @@ public class Game {
         
         return pathCheck;
     }
-    
+    /** checkForCheck will check to see if either King is in a check position, outputting nothing, check, or checkmate.*/
     public void checkForCheck(char flag)
     {
            blackCheck=checkEverything(blackKing, 'n', "black");
@@ -393,7 +396,7 @@ public class Game {
         }
         }
     }
-    
+    /*Handles player moves, switch player turn*/
     public void Move(int posX, int posY, Stage newWindow){
        boolean turn=playerOneTurn;
        //check to see if this will cause check
@@ -403,11 +406,13 @@ public class Game {
            generalPopUp("You cannot move here due to it causing check.");
            return;
        }
-
+       System.out.println(board[posX][posY].getPiece().hasMoved + " PreMove" + board[posX][posY].getPiece().imageName);
         playerOneTurn = previousPiece.move(posX, posY, newWindow, playerOneTurn, lastX, lastY);
-      
+        
+        //Was the move successful. 
       if(playerOneTurn != turn)
        {
+           System.out.println(board[posX][posY].getPiece().hasMoved + " AfterMove");
            if(playerOneTurn)
                generalPopUp("Player One's Turn");
            else
@@ -475,7 +480,7 @@ public class Game {
         return canBeReached;
     }
 /**
- checkPossible
+ chcheckPossible
  * prevPiece: is the potential attacking piece
  * prevPiecePoint: is the coordinates of the attacking piece
  * destPoints are the coordinates for the position being attacked

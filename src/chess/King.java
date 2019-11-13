@@ -5,9 +5,6 @@
  */
 package chess;
 
-import java.io.File;
-import javafx.scene.image.Image;
-import javafx.stage.Stage;
 
 /**
  *
@@ -19,6 +16,7 @@ public class King extends Piece {
         super(colorPiece);
     }
     
+@Override
 public void possibleMove(int t, int z, String colorBorder){
     int upOne,downOne, leftOne, rightOne;
 
@@ -86,6 +84,7 @@ public void possibleMove(int t, int z, String colorBorder){
             }
 }
 
+@Override
 public void removeMove(int t, int z){
 int upOne,downOne, leftOne, rightOne;
 

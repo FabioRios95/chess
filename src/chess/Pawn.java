@@ -18,14 +18,13 @@ public class Pawn extends Piece {
 Pawn(String colorPiece)
     {
         super(colorPiece);
-        hasMoved=false;
     }
      
     @Override
     public void possibleMove(int t, int z, String colorBorder)
     {
-        if(!hasMoved)
-        {
+//        if(!hasMoved)
+//        {
             int upOne,upTwo, diagLeft, diagRight;
             if(color.equals("black"))
             {
@@ -68,14 +67,14 @@ Pawn(String colorPiece)
   
                         possible.offer(new int[]{t,upTwo});
             }
-        }
+        //}
     }
     
         @Override
     public void removeMove(int t, int z)
     {
-           if(!hasMoved)
-        {
+//           if(!hasMoved)
+//        {
             int upOne,upTwo, diagLeft, diagRight;
             if(color.equals("black"))
             {
@@ -105,7 +104,7 @@ Pawn(String colorPiece)
                 board[t][upOne].getPiece().setBorder(t, upOne, "black");
             if((z == 1 || z == 6) && isValid(t,upTwo)&& board[t][upTwo].getPiece().isEmpty())
                 board[t][upTwo].getPiece().setBorder(t, upTwo, "black");
-        }
+        //}
     }
     
     
