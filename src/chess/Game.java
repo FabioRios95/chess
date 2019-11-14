@@ -164,10 +164,6 @@ public class Game {
                 vbox.getChildren().add(row2);
                 vbox.setAlignment(Pos.BASELINE_CENTER);
  
-                
-
-                
-                
                 Scene secondScene = new Scene(vbox, 400, 50);
  
                 // New window (Stage)
@@ -266,33 +262,49 @@ public class Game {
     public boolean moveCausesCheck(String color)
     {
         boolean causesCheck=false;
-        String pieceOrig= board[lastX][lastY].getPiece().updatePiece;
-        String pieceActual=board[posX][posY].getPiece().updatePiece;
-        if(pieceActual == null)
-            pieceActual="z";
-        if(pieceOrig == null)
-            pieceOrig="z";
-       // System.out.println(board[posX][posY] + " " + board[lastX][lastY]);
-        if(!(board[posX][posY] == null || board[lastX][lastY] == null))
+        String pieceTrue= board[lastX][lastY].getPiece().updatePiece;
+        String pieceFalse=board[posX][posY].getPiece().updatePiece;
+        String pieceName = board[lastX][lastY].getPiece().pieceName;
+        if(pieceTrue == null)
+            pieceTrue="empty";
+        if(pieceFalse == null)
+            pieceFalse="empty";
+        board[posX][posY].setPiece(pieceTrue);
+        board[lastX][lastY].setPiece("empty");
+        if(pieceName.equals("King"))
         {
-        board[posX][posY].setPiece(pieceOrig);
-        board[lastX][lastY].setPiece("z");
-        checkForCheck('q');
-        //System.out.println(board[lastX][lastY].getPiece().color);
-        if(blackCheck == false && whiteCheck == false)
-            causesCheck=false;
-        else if(blackCheck == true && color.equals("white"))
-            causesCheck=false;
-        else if(whiteCheck == true && color.equals("black"))
-            causesCheck=false;
-        else
-            causesCheck=true;
+           //System.out.println("King.");
+           blackCheck=checkEverything(new int[]{posX,posY}, 'n', "black");
+           whiteCheck=checkEverything(new int[]{posX,posY}, 'n', "white");
         }
-        board[posX][posY].setPiece(pieceActual);
-        //System.out.println("moveCausesCheck" + pieceActual);
-        board[lastX][lastY].setPiece(pieceOrig);
-        //System.out.println("moveCausesCheck" + pieceOrig);
+        else {
+        checkForCheck('q');
+       }
+        
+        //System.out.println("color " + color);
+        if(color.equals("black"))
+        {
+            if(blackCheck == true)
+                causesCheck=true;
+            else
+                causesCheck=false;
+        }
+        if(color.equals("white"))
+        {
+            if(whiteCheck == true)
+                causesCheck=true;
+            else
+                causesCheck=false;
+        }
+ 
+        board[posX][posY].setPiece(pieceFalse);
+        //System.out.println("whiteCheck " + whiteCheck);
+        board[lastX][lastY].setPiece(pieceTrue);
+        //System.out.println("blackCheck" + blackCheck);
   
+        
+        checkForCheck('q'); // reset real values for check
+       // System.out.println("causesCheck " + causesCheck);
         return causesCheck;
     }
     
@@ -423,27 +435,28 @@ public class Game {
        //check to see if this will cause check
  
        
-       if(blackCheck && lastX == blackKing[0] && lastY == blackKing[1] &&!kingMoveFromCheck("black"))
-       {
-           generalPopUp("You cannot move here due to it causing check.");
-           return;
-       }
-       if(whiteCheck && lastX == whiteKing[0] && lastY == whiteKing[1] &&!kingMoveFromCheck("white"))
-       {
-           generalPopUp("You cannot move here due to it causing check.");
-           return;
-       }
+//       if(blackCheck && lastX == blackKing[0] && lastY == blackKing[1] &&!kingMoveFromCheck("black"))
+//       {
+//           generalPopUp("You cannot move here due to it causing check.");
+//           return;
+//       }
+//       if(whiteCheck && lastX == whiteKing[0] && lastY == whiteKing[1] &&!kingMoveFromCheck("white"))
+//       {
+//           generalPopUp("You cannot move here due to it causing check.");
+//           return;
+//       }
        
        if(moveCausesCheck(board[lastX][lastY].getPiece().color)) // moveIntoCheck(posX, posY) || 
        {
            generalPopUp("You cannot move here due to it causing check.");
            return;
        }
+        previousPiece.possibleMove(lastX, lastY, "black");
         playerOneTurn = previousPiece.move(posX, posY, newWindow, playerOneTurn, lastX, lastY);
-        
         //Was the move successful. 
       if(playerOneTurn != turn)
        {
+           
            //System.out.println(board[posX][posY].getPiece().hasMoved + " AfterMove");
            if(playerOneTurn)
                generalPopUp("Player One's Turn");
@@ -458,6 +471,7 @@ public class Game {
            //Looks for check could be if statement
            checkForCheck('n');
        }
+
     }
    /**
  checkEverything
