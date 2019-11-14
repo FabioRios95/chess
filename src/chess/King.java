@@ -154,7 +154,7 @@ public class King extends Piece {
         if(playerOneTurn && board[lastX][lastY].getPiece().color.equals("white"))
         {
             String updated = board[lastX][lastY].getPiece().updatePiece;
-            if( (posX == 6 && posY == 7) || (posX == 2 && posY == 7) )
+            if( ((posX == 6 && posY == 7) && ( !board[7][7].getPiece().hasMoved)) || ((posX == 2 && posY == 7) && ( !board[0][7].getPiece().hasMoved)))
                 castling(posX,posY);
             board[lastX][lastY].setPiece(" "); // set old square to empty
             board[posX][posY].setPiece(updated); // move piece to new square
@@ -165,7 +165,7 @@ public class King extends Piece {
         {
             String updated = board[lastX][lastY].getPiece().updatePiece;
            // System.out.println(posX + " " + posY);
-            if( (posX == 6 && posY == 0) || (posX == 2 && posY == 0) )
+            if( ((posX == 6 && posY == 0) && ( !board[7][0].getPiece().hasMoved))|| ((posX == 2 && posY == 0) && ( !board[0][0].getPiece().hasMoved)))
                 castling(posX,posY);
             board[lastX][lastY].setPiece(" ");
             board[posX][posY].setPiece(updated);
@@ -203,22 +203,23 @@ public void possibleMove(int t, int z, String colorBorder){
                 rightOne=8;
             }
          //Castling
-                if(isValid(t,z) && allSpaceBetweenKingAndRookEmptyQS(color) && !spaceUnderAttackQS(color) && !isKingInCheck(t, z, color))
+         
+                if(isValid(t,z) && !board[t][z].getPiece().hasMoved &&allSpaceBetweenKingAndRookEmptyQS(color) && !spaceUnderAttackQS(color) && !isKingInCheck(t, z, color))
                 {
                     while(!possible.isEmpty())
                         possible.poll();
-                    if(color.equals("black"))
+                    if(color.equals("black") && !board[0][0].getPiece().hasMoved)
                             possible.offer(new int[]{2,0});
-                    else
+                    else if(color.equals("white") && !board[0][7].getPiece().hasMoved)
                             possible.offer(new int[]{2,7});
                 }
-                if(isValid(t,z) &&allSpaceBetweenKingAndRookEmptyKS(color)&&!spaceUnderAttackKS(color)&&!isKingInCheck(t, z, color))
+                if(isValid(t,z)&& !board[t][z].getPiece().hasMoved &&allSpaceBetweenKingAndRookEmptyKS(color)&&!spaceUnderAttackKS(color)&&!isKingInCheck(t, z, color))
                 {    
                     while(!possible.isEmpty())
                         possible.poll();
-                    if(color.equals("black"))
+                    if(color.equals("black") && !board[7][0].getPiece().hasMoved)
                             possible.offer(new int[]{6,0});
-                    else
+                    else if(color.equals("white") && !board[7][7].getPiece().hasMoved)
                             possible.offer(new int[]{6,7});
                 }
         

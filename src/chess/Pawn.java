@@ -101,7 +101,6 @@ public boolean move(int posX, int posY, Stage newWindow, boolean playerOneTurn, 
     @Override
     public void possibleMove(int t, int z, String colorBorder)
     {
-
             int upOne,upTwo, diagLeft, diagRight;
             if(color.equals("black"))
             {

@@ -439,7 +439,6 @@ public class Game {
            generalPopUp("You cannot move here due to it causing check.");
            return;
        }
-       //System.out.println(board[posX][posY].getPiece().hasMoved + " PreMove" + board[posX][posY].getPiece().imageName);
         playerOneTurn = previousPiece.move(posX, posY, newWindow, playerOneTurn, lastX, lastY);
         
         //Was the move successful. 
