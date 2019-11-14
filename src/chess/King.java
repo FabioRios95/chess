@@ -9,6 +9,18 @@ import static chess.Piece.board;
 import javafx.stage.Stage;
 
 
+enum castlingRook{
+    KSROOKWHITE(0),
+    QSROOKWHITE(1),
+    KSROOKBLACK(2),
+    QSROOKBLACK(3);
+    public final int value;
+    private castlingRook(int value)
+    {
+        this.value=value;
+    }
+}
+
 /**
  *
  * @author coleb29
@@ -22,6 +34,8 @@ public class King extends Piece {
     private boolean blackCheck=false;
     private boolean whiteCheck=false;
     
+    
+    
  
     /**
      All space between king and rook empty on King Side, for castling
@@ -31,8 +45,6 @@ public class King extends Piece {
         Boolean answer=false;
         if("white".equals(color))
         {
-            //System.out.println(board[5][7].getPiece().isEmpty());
-            //System.out.println(board[6][7].getPiece().isEmpty());
             if(board[5][7].getPiece().isEmpty() && board[6][7].getPiece().isEmpty())
                 return true;
         }

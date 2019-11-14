@@ -125,6 +125,67 @@ public abstract class Piece {
                         board[t][z].getBox().setBackground(original);
     
     }
+    /** 
+     helperStackWhite handles possible moves for white bishop
+     * Arguments : 
+     * t : the actual initial column position of the piece 
+     * z : the actual position row position of the piece
+     * x : the next possible column position to be tested
+     * y : the next possible row position to be tested
+     * direction : The bishop can only move in four possible directions. This specifies which one of those it is. 
+     * border : border color for the square/VBox
+     */
+    public void caseForDiagonalStack(int t, int z, int x, int y, int direction, String border, String color)
+{
+    int[][] possibleCoordinatesBlackDiagonal = {{x+1,y+1},{x+1,y-1},{x-1,y-1},{x-1,y+1}};
+    int[][] possibleCoordinatesWhiteDiagonal = {{x+1,y-1},{x+1,y+1},{x-1,y+1},{x-1,y-1}};
+        board[x][y].getPiece().setBorder(x, y, border);
+            possible.offer(new int[]{x,y});
+            if(!board[t][z].getPiece().color.equals(board[x][y].getPiece().color) && !board[x][y].getPiece().isEmpty()) // if the color is the same and it is not empty
+                return;
+            if(color.equals("black"))
+                helperStackDiagonal(t, z, possibleCoordinatesBlackDiagonal[direction][0], possibleCoordinatesBlackDiagonal[direction][1], direction, border, color);
+
+            if(color.equals("white"))
+                helperStackDiagonal(t, z, possibleCoordinatesWhiteDiagonal[direction][0], possibleCoordinatesWhiteDiagonal[direction][1], direction, border, color);
+
+}
+
+public void caseForHorizontalStack(int t, int z, int x, int y, int direction, String border, String color)
+{
+    int[][] possibleCoordinatesBlackHorizontal = {{x,y+1},{x+1,y},{x,y-1},{x-1,y}};
+    int[][] possibleCoordinatesWhiteHorizontal = {{x,y-1},{x+1,y},{x,y+1},{x-1,y}};
+        board[x][y].getPiece().setBorder(x, y, border);
+            possible.offer(new int[]{x,y});
+            if(!board[t][z].getPiece().color.equals(board[x][y].getPiece().color) && !board[x][y].getPiece().isEmpty()) // if the color is the same and it is not empty
+                return;
+            if(color.equals("black"))
+                helperStackHorizontal(t, z, possibleCoordinatesBlackHorizontal[direction][0], possibleCoordinatesBlackHorizontal[direction][1], direction, border, color);
+
+            if(color.equals("white"))
+                helperStackHorizontal(t, z, possibleCoordinatesWhiteHorizontal[direction][0], possibleCoordinatesWhiteHorizontal[direction][1], direction, border, color);
+            
+
+}
+
+int[][] direction = {{},{},{}};
+        
+ public void helperStackDiagonal(int t, int z, int x, int y, int direction, String border, String color)
+    {
+        if(!isValid(x,y) || board[t][z].getPiece().color.equals(board[x][y].getPiece().color) )
+                return;
+        
+            caseForDiagonalStack(t,z,x,y,direction,border, color);
+
+    }
+ 
+ public void helperStackHorizontal(int t, int z, int x, int y, int direction, String border, String color)
+    {
+        if(!isValid(x,y) || board[t][z].getPiece().color.equals(board[x][y].getPiece().color) )
+                return;
+            caseForHorizontalStack(t,z,x,y,direction,border, color);
+   
+    }
     
 
     

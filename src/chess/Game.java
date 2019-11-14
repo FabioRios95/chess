@@ -271,7 +271,7 @@ public class Game {
             pieceFalse="empty";
         board[posX][posY].setPiece(pieceTrue);
         board[lastX][lastY].setPiece("empty");
-        if(pieceName.equals("King"))
+        if(pieceName != null && pieceName.equals("King"))
         {
            //System.out.println("King.");
            blackCheck=checkEverything(new int[]{posX,posY}, 'n', "black");
