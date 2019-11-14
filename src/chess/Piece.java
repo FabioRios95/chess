@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package chess;
 
 import java.io.File;
@@ -12,7 +7,10 @@ import javafx.scene.image.Image;
 import javafx.scene.layout.Background;
 import javafx.stage.Stage;
 
-
+/**
+ *
+ * @author coleb29
+ */
 /**
  *
  * @author coleb29
@@ -27,6 +25,7 @@ public abstract class Piece {
     protected String updatePiece;
     protected Queue<int[]> possible;
     protected Boolean hasMoved=false;
+
     
     Piece(String colorPiece)
     {
@@ -113,7 +112,7 @@ public abstract class Piece {
     
     public abstract void removeMove(int t, int z);
  
-   
+   //Sets the border of VBox at t,z coordinates to the borderColor
     public void setBorder(int t, int z, String borderColor)
     {
     Background original = board[t][z].getBox().getBackground();
@@ -126,7 +125,7 @@ public abstract class Piece {
     
     }
     /** 
-     helperStackWhite handles possible moves for white bishop
+     helperStackArguments handle possible moves for bishop/rook/queen in their specified direction
      * Arguments : 
      * t : the actual initial column position of the piece 
      * z : the actual position row position of the piece
@@ -134,6 +133,7 @@ public abstract class Piece {
      * y : the next possible row position to be tested
      * direction : The bishop can only move in four possible directions. This specifies which one of those it is. 
      * border : border color for the square/VBox
+     * color : piece color
      */
     public void caseForDiagonalStack(int t, int z, int x, int y, int direction, String border, String color)
 {
@@ -168,7 +168,6 @@ public void caseForHorizontalStack(int t, int z, int x, int y, int direction, St
 
 }
 
-int[][] direction = {{},{},{}};
         
  public void helperStackDiagonal(int t, int z, int x, int y, int direction, String border, String color)
     {

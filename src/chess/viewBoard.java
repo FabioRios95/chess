@@ -125,23 +125,23 @@ public class viewBoard extends Application {
             for(int j=y,z=0;j<height;j+=increment,z++){
             int col=0;
             HBox hbox = new HBox();
-            for(int i=x,t=0;i<width;i+=increment,t++)
+            for(int i=x,t=0;i<width;i+=increment,t++) //initialize board
             {
                 String piece = initializePieces(t,z); //allows background color for squares
                 VBox vbox = new VBox(); 
                 if(row % 2 == 0 && col % 2 == 0)
                 {
-                    createSquare(t,z,i,j,vbox, piece, "#ffffe6");
+                    createSquare(t,z,i,j,vbox, piece, "#ffffe6"); //light color for background
                 }
                 else if(row % 2 != 0 && col % 2 != 0)
                 {
-                    createSquare(t,z,i,j,vbox, piece , "#ffffe6");
+                    createSquare(t,z,i,j,vbox, piece , "#ffffe6"); //light color for background
                 }
                 else
                 {
-                    createSquare(t,z,i,j,vbox, piece, "#996633");
+                    createSquare(t,z,i,j,vbox, piece, "#996633"); // darker brownish for background
                 }
-                vbox.getChildren().add(board[t][z].getRectangle()); //add image to square
+                vbox.getChildren().add(board[t][z].getRectangle()); //add image [rectangle] to square
                 hbox.getChildren().add(vbox); 
                 col++;
             }

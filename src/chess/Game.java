@@ -1,11 +1,9 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package chess;
 
-
+/**
+ *
+ * @author coleb29
+ */
 
 import java.util.LinkedList;
 import java.util.Queue;
@@ -317,15 +315,15 @@ public class Game {
             if(board[position[0]][position[1]].getPiece().possible.isEmpty())
                 return false;
             Queue<int[]> storage= new LinkedList<>(board[position[0]][position[1]].getPiece().possible);
-            //System.out.println("possible length : " + board[position[0]][position[1]].getPiece().possible.size());
+            
             
             boolean canBeTouched;
             while(!storage.isEmpty())
             {
                int[] possibles = storage.poll();
                canBeTouched=checkEverything(possibles, 'n', board[position[0]][position[1]].getPiece().color);
-               //System.out.println("canBeTouched: " + !moveIntoCheck(possibles[0],possibles[1], "black"));
-               if(!canBeTouched && !moveIntoCheck(possibles[0],possibles[1], "black")) //&& moveIntoCheck(possibles[0],possibles[1])
+              
+               if(!canBeTouched && !moveIntoCheck(possibles[0],possibles[1], "black")) 
                    canMove=true;
             }
             //System.out.println("canMove : " + canMove);
@@ -347,12 +345,8 @@ public class Game {
         while(!checkQueue.isEmpty())
         {
             position=checkQueue.poll();
-
-            //System.out.println(position[0]+ " " +position[1] + " " + board[position[0]][position[1]].getPiece().updatePiece);
-            
-                canKill=checkEverything(position, 'n', board[position[0]][position[1]].getPiece().color)  && !moveIntoCheck(position[0],position[1], "black");
+            canKill=checkEverything(position, 'n', board[position[0]][position[1]].getPiece().color)  && !moveIntoCheck(position[0],position[1], "black");
         }
-        // System.out.println("canKill : " + canKill);
         return canKill;
     }
     
@@ -385,13 +379,13 @@ public class Game {
                 {
                     int[] test = board[position[0]][position[1]].getPiece().possible.poll();
                     
-                    //System.out.println(board[position[0]][position[1]].getPiece().updatePiece);
+
                     blockDistance=distance(king[0], test[0], king[1], test[1]);
                     canMoveInto = checkEverything(test ,'i', board[position[0]][position[1]].getPiece().color);
                     if(canMoveInto && blockDistance < actualDistance)
                         pathCheck=true;
                 }
-                //System.out.println("pathCheck : " + pathCheck);
+
                 if(pathCheck == false)
                     return false;
         }
@@ -403,48 +397,35 @@ public class Game {
     {
            blackCheck=checkEverything(blackKing, 'n', "black");
            whiteCheck=checkEverything(whiteKing, 'n', "white");
-           //System.out.println("blackKing " + blackKing[0] + " " + blackKing[1] + " whiteKing " + whiteKing[0] +" " + whiteKing[1]);
-           //System.out.println("blackCheck " + blackCheck + " " + "whiteCheck " + whiteCheck);
-        if(flag=='n'){
-        if(whiteCheck)
+          
+        if(flag=='n')
         {
-            if(!kingMoveFromCheck("white") && !piecesCausingCheckKilled("white") && !pieceInPathOfCheck("white"))
+            if(whiteCheck)
             {
-                generalPopUp("Black Wins!\nCheckmate!");
-                stage.close();
-                return;
+                if(!kingMoveFromCheck("white") && !piecesCausingCheckKilled("white") && !pieceInPathOfCheck("white"))
+                {
+                    generalPopUp("Black Wins!\nCheckmate!");
+                    stage.close();
+                    return;
+                }
+                else
+                    generalPopUp("White Check!");
             }
-            else
-                generalPopUp("White Check!");
-        }
-        if(blackCheck)
-        {
-            if(!kingMoveFromCheck("black") && !piecesCausingCheckKilled("black") && !pieceInPathOfCheck("black"))
+            if(blackCheck)
             {
-                generalPopUp("White Wins!\nCheckmate!");
-                stage.close();
+                if(!kingMoveFromCheck("black") && !piecesCausingCheckKilled("black") && !pieceInPathOfCheck("black"))
+                {
+                    generalPopUp("White Wins!\nCheckmate!");
+                    stage.close();
+                }
+                else
+                    generalPopUp("Black Check!");
             }
-            else
-                generalPopUp("Black Check!");
-        }
         }
     }
     /*Handles player moves, switch player turn*/
     public void Move(int posX, int posY, Stage newWindow){
        boolean turn=playerOneTurn;
-       //check to see if this will cause check
- 
-       
-//       if(blackCheck && lastX == blackKing[0] && lastY == blackKing[1] &&!kingMoveFromCheck("black"))
-//       {
-//           generalPopUp("You cannot move here due to it causing check.");
-//           return;
-//       }
-//       if(whiteCheck && lastX == whiteKing[0] && lastY == whiteKing[1] &&!kingMoveFromCheck("white"))
-//       {
-//           generalPopUp("You cannot move here due to it causing check.");
-//           return;
-//       }
        
        if(moveCausesCheck(board[lastX][lastY].getPiece().color)) // moveIntoCheck(posX, posY) || 
        {
@@ -498,26 +479,27 @@ public class Game {
                     String kingFalsePosition=null, kingTruePosition=null;
                     if(flag == 'o')
                     {
-                    if(colored.equals("black")){
-                     kingFalsePosition=board[dest[0]][dest[1]].getPiece().updatePiece;
-                     kingTruePosition= board[blackKing[0]][blackKing[1]].getPiece().updatePiece;
-                      board[dest[0]][dest[1]].setPiece(colored+ " King");
-                      board[blackKing[0]][blackKing[1]].setPiece("z");
-                        if(kingFalsePosition == null)
-                             kingFalsePosition="empty";
-                        if(kingTruePosition == null)
-                            kingTruePosition="black King";
-                    }
-                    if(colored.equals("white")){
-                    kingFalsePosition=board[dest[0]][dest[1]].getPiece().updatePiece;
-                     kingTruePosition= board[whiteKing[0]][whiteKing[1]].getPiece().updatePiece;
-                      board[dest[0]][dest[1]].setPiece(colored+ " King");
-                      board[whiteKing[0]][whiteKing[1]].setPiece("z");
-                        if(kingFalsePosition == null)
-                             kingFalsePosition="empty";
-                        if(kingTruePosition == null)
-                            kingTruePosition="white King";
-                    }
+                        if(colored.equals("black")){
+                            kingFalsePosition=board[dest[0]][dest[1]].getPiece().updatePiece;
+                            kingTruePosition= board[blackKing[0]][blackKing[1]].getPiece().updatePiece;
+                            board[dest[0]][dest[1]].setPiece(colored+ " King");
+                            board[blackKing[0]][blackKing[1]].setPiece("z");
+                            if(kingFalsePosition == null)
+                                kingFalsePosition="empty";
+                            if(kingTruePosition == null)
+                                kingTruePosition="black King";
+                        }
+                        if(colored.equals("white"))
+                        {
+                            kingFalsePosition=board[dest[0]][dest[1]].getPiece().updatePiece;
+                            kingTruePosition= board[whiteKing[0]][whiteKing[1]].getPiece().updatePiece;
+                            board[dest[0]][dest[1]].setPiece(colored+ " King");
+                            board[whiteKing[0]][whiteKing[1]].setPiece("z");
+                            if(kingFalsePosition == null)
+                                kingFalsePosition="empty";
+                            if(kingTruePosition == null)
+                               kingTruePosition="white King";
+                        }
                     }
                     if(flag == 'i')
                     {
@@ -531,12 +513,12 @@ public class Game {
                     if(flag=='o')
                     {
                         if(colored.equals("black")){
-                       board[dest[0]][dest[1]].setPiece(kingFalsePosition); 
-                       board[blackKing[0]][blackKing[1]].setPiece(kingTruePosition);
+                            board[dest[0]][dest[1]].setPiece(kingFalsePosition); 
+                            board[blackKing[0]][blackKing[1]].setPiece(kingTruePosition);
                         }
                         if(colored.equals("white")){
-                        board[dest[0]][dest[1]].setPiece(kingFalsePosition); 
-                        board[whiteKing[0]][whiteKing[1]].setPiece(kingTruePosition);
+                            board[dest[0]][dest[1]].setPiece(kingFalsePosition); 
+                            board[whiteKing[0]][whiteKing[1]].setPiece(kingTruePosition);
                         }
                     }
                 }
