@@ -41,16 +41,16 @@ public class Game {
     private boolean playerOneTurn=true;
     private static int[] blackKing= new int[]{4,0};
     private static int[] whiteKing= new int[]{4,7};
-    private boolean blackCheck=false;
-    private boolean whiteCheck=false;
-    private Queue<int[]> checkQueue = new LinkedList<>();
+    private static boolean blackCheck=false;
+    private static boolean whiteCheck=false;
+    private static Queue<int[]> checkQueue = new LinkedList<>();
   
-    public static int[] getBlackKing(){
-        return blackKing;
+    public static boolean getBlackCheck(){
+        return blackCheck;
     }
     
-    public static int[] getWhiteKing(){
-        return whiteKing;
+    public static boolean getWhiteCheck(){
+        return whiteCheck;
     }
     
     public void setScene(Scene scene)
@@ -247,6 +247,16 @@ public class Game {
                         return checkEverything(new int[]{posX,posY}, 'o', color);
                 }
             }
+            if(color.equals("white"))
+            {
+                board[whiteKing[0]][whiteKing[1]].getPiece().possibleMove(whiteKing[0], whiteKing[1], "black");
+                while(!board[whiteKing[0]][whiteKing[1]].getPiece().possible.isEmpty())
+                {
+                    int test[] = board[whiteKing[0]][whiteKing[1]].getPiece().possible.poll();
+                    if(test[0] == posX && test[1] == posY)
+                        return checkEverything(new int[]{posX,posY}, 'o', color);
+                }
+            }
             return false;
     }
     
@@ -279,7 +289,9 @@ public class Game {
             causesCheck=true;
         }
         board[posX][posY].setPiece(pieceActual);
+        //System.out.println("moveCausesCheck" + pieceActual);
         board[lastX][lastY].setPiece(pieceOrig);
+        //System.out.println("moveCausesCheck" + pieceOrig);
   
         return causesCheck;
     }
@@ -304,7 +316,7 @@ public class Game {
                if(!canBeTouched && !moveIntoCheck(possibles[0],possibles[1], "black")) //&& moveIntoCheck(possibles[0],possibles[1])
                    canMove=true;
             }
-            System.out.println("canMove : " + canMove);
+            //System.out.println("canMove : " + canMove);
             return canMove; 
     }
     /**piecesCausingCheckKilled determines if you can kill the piece that caused check, if there are more than two pieces causing check
@@ -328,7 +340,7 @@ public class Game {
             
                 canKill=checkEverything(position, 'n', board[position[0]][position[1]].getPiece().color)  && !moveIntoCheck(position[0],position[1], "black");
         }
-         System.out.println("canKill : " + canKill);
+        // System.out.println("canKill : " + canKill);
         return canKill;
     }
     
@@ -367,7 +379,7 @@ public class Game {
                     if(canMoveInto && blockDistance < actualDistance)
                         pathCheck=true;
                 }
-                System.out.println("pathCheck : " + pathCheck);
+                //System.out.println("pathCheck : " + pathCheck);
                 if(pathCheck == false)
                     return false;
         }
@@ -461,7 +473,7 @@ public class Game {
  *  i : ignore king as potential piece
  *  o : override used to temporarily test if king can move in checked scenario
  */ 
-    public boolean checkEverything(int[] dest, char flag, String colored){
+    public static boolean checkEverything(int[] dest, char flag, String colored){
         boolean canBeReached=false;
         for(int i=0;i<8; i++)
         {
@@ -470,16 +482,29 @@ public class Game {
                 //has to be another color piece
                 if(!(board[j][i].getPiece().color.equals(colored) || board[j][i].getPiece().color.equals("empty") ))
                 {
-                    String newPosition= board[dest[0]][dest[1]].getPiece().updatePiece;
-                    String kingPosition=board[blackKing[0]][blackKing[0]].getPiece().updatePiece;
+                    String kingFalsePosition=null, kingTruePosition=null;
                     if(flag == 'o')
                     {
+                    if(colored.equals("black")){
+                     kingFalsePosition=board[dest[0]][dest[1]].getPiece().updatePiece;
+                     kingTruePosition= board[blackKing[0]][blackKing[1]].getPiece().updatePiece;
                       board[dest[0]][dest[1]].setPiece(colored+ " King");
                       board[blackKing[0]][blackKing[1]].setPiece("z");
-                        if(newPosition == null)
-                             newPosition="empty";
-                        if(kingPosition == null)
-                            kingPosition="black King";
+                        if(kingFalsePosition == null)
+                             kingFalsePosition="empty";
+                        if(kingTruePosition == null)
+                            kingTruePosition="black King";
+                    }
+                    if(colored.equals("white")){
+                    kingFalsePosition=board[dest[0]][dest[1]].getPiece().updatePiece;
+                     kingTruePosition= board[whiteKing[0]][whiteKing[1]].getPiece().updatePiece;
+                      board[dest[0]][dest[1]].setPiece(colored+ " King");
+                      board[whiteKing[0]][whiteKing[1]].setPiece("z");
+                        if(kingFalsePosition == null)
+                             kingFalsePosition="empty";
+                        if(kingTruePosition == null)
+                            kingTruePosition="white King";
+                    }
                     }
                     if(flag == 'i')
                     {
@@ -492,8 +517,14 @@ public class Game {
                     canBeReached=checkPossible(board[j][i].getPiece(), new int[]{j,i}, dest, canBeReached, flag);
                     if(flag=='o')
                     {
-                       board[dest[0]][dest[1]].setPiece(newPosition); 
-                       board[blackKing[0]][blackKing[1]].setPiece(kingPosition);
+                        if(colored.equals("black")){
+                       board[dest[0]][dest[1]].setPiece(kingFalsePosition); 
+                       board[blackKing[0]][blackKing[1]].setPiece(kingTruePosition);
+                        }
+                        if(colored.equals("white")){
+                        board[dest[0]][dest[1]].setPiece(kingFalsePosition); 
+                        board[whiteKing[0]][whiteKing[1]].setPiece(kingTruePosition);
+                        }
                     }
                 }
             }
@@ -512,7 +543,7 @@ public class Game {
  *  i : ignore king as potential piece
  *  o : override used to temporarily test if king can move in checked scenario
  */
-    public boolean checkPossible(Piece prevPiece, int[] prevPiecePoint, int[] destPoints, boolean canBeReached, char flag)
+    public static boolean checkPossible(Piece prevPiece, int[] prevPiecePoint, int[] destPoints, boolean canBeReached, char flag)
     {
         while(!prevPiece.possible.isEmpty())
         {

@@ -82,8 +82,8 @@ public boolean move(int posX, int posY, Stage newWindow, boolean playerOneTurn, 
         }  
         else if(!playerOneTurn && board[lastX][lastY].getPiece().color.equals("black") )
         {
-            String updated = board[lastX][lastY].getPiece().updatePiece;
-            if(posY == 0)
+            updated = board[lastX][lastY].getPiece().updatePiece;
+            if(posY == 7)
             {   createPopUp("black");
                 System.out.println("Updated: " +updated);
             }

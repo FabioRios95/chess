@@ -22,56 +22,7 @@ public class King extends Piece {
     private boolean blackCheck=false;
     private boolean whiteCheck=false;
     
-     public void checkForCheck(char flag)
-    {
-           blackCheck=checkEverything(chess.Game.getBlackKing(), 'n', "black");
-           whiteCheck=checkEverything(chess.Game.getWhiteKing(), 'n', "white");
-    }
-    
-    public boolean checkEverything(int[] dest, char flag, String colored){
-        boolean canBeReached=false;
-        for(int i=0;i<8; i++)
-        {
-            for(int j=0; j<8;j++)
-            {
-                if(!(board[j][i].getPiece().color.equals(colored) || board[j][i].getPiece().color.equals("empty") || board[j][i].getPiece().pieceName.equals("King")))
-                {
-                    board[j][i].getPiece().possibleMove(j,i,"black");
-                    canBeReached=checkPossible(board[j][i].getPiece(), new int[]{j,i}, dest, canBeReached, flag);
-                }
-            }
-        }
-        return canBeReached;
-    }
-/**
- checkPossible
- * prevPiece: is the potential attacking piece
- * prevPiecePoint: is the coordinates of the attacking piece
- * destPoints are the coordinates for the position being attacked
- * canBeReached returns true if the prevPiece can reach the destPoints
- * flag 
- *  n : normal operation
- *  q : queue the coordinates of attacking piece
- *  i : ignore king as potential piece
- *  o : override used to temporarily test if king can move in checked scenario
- */
-    public boolean checkPossible(Piece prevPiece, int[] prevPiecePoint, int[] destPoints, boolean canBeReached, char flag)
-    {
-        while(!prevPiece.possible.isEmpty())
-        {
-
-            int[] points = prevPiece.possible.poll();
-            
-            if(destPoints[0] != points[0] || destPoints[1] != points[1])
-                continue;
-            if(!prevPiece.color.equals(board[destPoints[0]][destPoints[1]].getPiece().color))
-            {
-                canBeReached=true;
-            }
-            
-        }
-        return canBeReached;   
-    }
+ 
     /**
      All space between king and rook empty on King Side, for castling
      */
@@ -117,16 +68,16 @@ public class King extends Piece {
         Boolean answer=false;
         if("white".equals(color))
         {
-            answer = checkEverything(new int[]{5,7}, 'n', color);
+            answer = chess.Game.checkEverything(new int[]{5,7}, 'i', color);
             if(answer == true)
                 return true;
-            answer = checkEverything(new int[]{6,7}, 'n', color);
+            answer = chess.Game.checkEverything(new int[]{6,7}, 'i', color);
         }
         else{
-            answer = checkEverything(new int[]{5,0}, 'n', color);
+            answer = chess.Game.checkEverything(new int[]{5,0}, 'i', color);
             if(answer == true)
                 return true;
-            answer = checkEverything(new int[]{6,0}, 'n', color);
+            answer = chess.Game.checkEverything(new int[]{6,0}, 'i', color);
         }    
         return answer;
     }
@@ -138,22 +89,22 @@ public class King extends Piece {
         
         if("white".equals(color))
         {
-            answer = checkEverything(new int[]{1,7}, 'n', color);
+            answer = chess.Game.checkEverything(new int[]{1,7}, 'i', color);
             if(answer == true)
                 return true;
-            answer = checkEverything(new int[]{2,7}, 'n', color);
+            answer = chess.Game.checkEverything(new int[]{2,7}, 'i', color);
             if(answer == true)
                 return true;
-            answer = checkEverything(new int[]{3,7}, 'n', color);
+            answer = chess.Game.checkEverything(new int[]{3,7}, 'i', color);
         }
         else{
-            answer = checkEverything(new int[]{1,0}, 'n', color);
+            answer = chess.Game.checkEverything(new int[]{1,0}, 'i', color);
             if(answer == true)
                 return true;
-            answer = checkEverything(new int[]{2,0}, 'n', color);
+            answer = chess.Game.checkEverything(new int[]{2,0}, 'i', color);
             if(answer == true)
                 return true;
-            answer = checkEverything(new int[]{3,0}, 'n', color);
+            answer = chess.Game.checkEverything(new int[]{3,0}, 'i', color);
         }   
         return answer;
     }
@@ -162,17 +113,37 @@ public class King extends Piece {
     public boolean isKingInCheck(int lastX, int lastY, String color){
         Boolean answer;
 
-        checkForCheck('q');
-
         if(color.equals("white"))
-            answer=whiteCheck;
+            answer=chess.Game.getWhiteCheck();
         else
-            answer=blackCheck;
+            answer=chess.Game.getBlackCheck();
 
         return answer;
     }
      //verifies move is possible for each piece, if it is returns the new player. Otherwise returns current player, overrides piece
     // because it needs to handle castling. 
+    public void castling(int posX, int posY){
+        if(posX == 6 && posY == 7) // King Side White
+        {
+            board[5][7].setPiece("white Rook");
+            board[7][7].setPiece(" ");
+        }
+        if(posX == 2 && posY == 7) // Queen Side White
+        {
+            board[3][7].setPiece("white Rook");
+            board[0][7].setPiece(" ");
+        }  
+        if(posX == 6 && posY == 0) // King Side Black
+        {
+            board[5][0].setPiece("black Rook");
+            board[7][0].setPiece(" ");
+        }  
+        if(posX == 2 && posY == 0) // Queen Side Black
+        {
+            board[3][0].setPiece("black Rook");
+            board[0][0].setPiece(" ");
+        }
+    }
     @Override
     public boolean move(int posX, int posY, Stage newWindow, boolean playerOneTurn, int lastX, int lastY){
     while(!possible.isEmpty())
@@ -183,6 +154,8 @@ public class King extends Piece {
         if(playerOneTurn && board[lastX][lastY].getPiece().color.equals("white"))
         {
             String updated = board[lastX][lastY].getPiece().updatePiece;
+            if( (posX == 6 && posY == 7) || (posX == 2 && posY == 7) )
+                castling(posX,posY);
             board[lastX][lastY].setPiece(" "); // set old square to empty
             board[posX][posY].setPiece(updated); // move piece to new square
             board[posX][posY].getPiece().hasMoved=true;
@@ -191,6 +164,9 @@ public class King extends Piece {
         else if(!playerOneTurn && board[lastX][lastY].getPiece().color.equals("black") )
         {
             String updated = board[lastX][lastY].getPiece().updatePiece;
+           // System.out.println(posX + " " + posY);
+            if( (posX == 6 && posY == 0) || (posX == 2 && posY == 0) )
+                castling(posX,posY);
             board[lastX][lastY].setPiece(" ");
             board[posX][posY].setPiece(updated);
             board[posX][posY].getPiece().hasMoved=true;
@@ -226,29 +202,28 @@ public void possibleMove(int t, int z, String colorBorder){
                 leftOne=8;
                 rightOne=8;
             }
-          /*  
-            //Can castle or not
-            System.out.println(" t " + t + " z " + z);
-            System.out.println("spacesBetween " + allSpaceBetweenKingAndRookEmptyKS(color));
-            boolean test = spaceUnderAttackKS(color);
-            System.out.println("kingInCheck " + test);
-            //+ " spaceUnderAttack " + spaceUnderAttackQS(color)
-            //+ " isKingInCheck " + isKingInCheck(t, z, color));
-                if(allSpaceBetweenKingAndRookEmptyQS(color) && spaceUnderAttackQS(color) && isKingInCheck(t, z, color))
+         //Castling
+                if(isValid(t,z) && allSpaceBetweenKingAndRookEmptyQS(color) && !spaceUnderAttackQS(color) && !isKingInCheck(t, z, color))
                 {
+                    while(!possible.isEmpty())
+                        possible.poll();
                     if(color.equals("black"))
-                            possible.offer(new int[]{1,0});
+                            possible.offer(new int[]{2,0});
                     else
-                            possible.offer(new int[]{1,7});
+                            possible.offer(new int[]{2,7});
                 }
-                if(allSpaceBetweenKingAndRookEmptyKS(color)&&spaceUnderAttackKS(color)&&isKingInCheck(t, z, color))
+                if(isValid(t,z) &&allSpaceBetweenKingAndRookEmptyKS(color)&&!spaceUnderAttackKS(color)&&!isKingInCheck(t, z, color))
                 {    
+                    while(!possible.isEmpty())
+                        possible.poll();
                     if(color.equals("black"))
                             possible.offer(new int[]{6,0});
                     else
                             possible.offer(new int[]{6,7});
                 }
-        */
+        
+       
+            //End of castle, regular movement begins
             if(isValid(leftOne,upOne) && !board[t][z].getPiece().color.equals(board[leftOne][upOne].getPiece().color))
             {
                         board[leftOne][upOne].getPiece().setBorder(leftOne, upOne, colorBorder);
@@ -276,12 +251,12 @@ public void possibleMove(int t, int z, String colorBorder){
             }
             if(isValid(t,downOne) && !board[t][z].getPiece().color.equals(board[t][downOne].getPiece().color))
             {
-                        board[t][upOne].getPiece().setBorder(t, downOne, colorBorder);
+                        board[t][downOne].getPiece().setBorder(t, downOne, colorBorder);
                         possible.offer(new int[]{t,downOne});
             }
             if(isValid(leftOne,z) && !board[t][z].getPiece().color.equals(board[leftOne][z].getPiece().color))
             {
-                        board[leftOne][upOne].getPiece().setBorder(leftOne, z, colorBorder);
+                        board[leftOne][z].getPiece().setBorder(leftOne, z, colorBorder);
                         possible.offer(new int[]{leftOne,z});
             }
             if(isValid(rightOne,z) && !board[t][z].getPiece().color.equals(board[rightOne][z].getPiece().color))
@@ -320,42 +295,40 @@ int upOne,downOne, leftOne, rightOne;
             if(isValid(leftOne,upOne) && !board[t][z].getPiece().color.equals(board[leftOne][upOne].getPiece().color))
             {
                         board[leftOne][upOne].getPiece().setBorder(leftOne, upOne, "black");
-                        possible.offer(new int[]{leftOne,upOne});
             }
             if(isValid(rightOne,upOne) && !board[t][z].getPiece().color.equals(board[rightOne][upOne].getPiece().color))
             {
                         board[rightOne][upOne].getPiece().setBorder(rightOne, upOne, "black");
-                        possible.offer(new int[]{rightOne,upOne});
             }
             if(isValid(leftOne,downOne) && !board[t][z].getPiece().color.equals(board[leftOne][downOne].getPiece().color))
             {
                         board[leftOne][downOne].getPiece().setBorder(leftOne, downOne, "black");
-                        possible.offer(new int[]{leftOne,downOne});
+
             }
             if(isValid(rightOne,downOne) && !board[t][z].getPiece().color.equals(board[rightOne][downOne].getPiece().color))
             {
                         board[rightOne][downOne].getPiece().setBorder(rightOne, downOne, "black");
-                        possible.offer(new int[]{rightOne,downOne});
+
             }
             if(isValid(t,upOne) && !board[t][z].getPiece().color.equals(board[t][upOne].getPiece().color))
             {
                         board[t][upOne].getPiece().setBorder(t, upOne, "black");
-                        possible.offer(new int[]{t,upOne});
+
             }
             if(isValid(t,downOne) && !board[t][z].getPiece().color.equals(board[t][downOne].getPiece().color))
             {
                         board[t][upOne].getPiece().setBorder(t, downOne, "black");
-                        possible.offer(new int[]{t,downOne});
+
             }
             if(isValid(leftOne,z) && !board[t][z].getPiece().color.equals(board[leftOne][z].getPiece().color))
             {
                         board[leftOne][upOne].getPiece().setBorder(leftOne, z, "black");
-                        possible.offer(new int[]{leftOne,z});
+
             }
             if(isValid(rightOne,z) && !board[t][z].getPiece().color.equals(board[rightOne][z].getPiece().color))
             {
                         board[rightOne][z].getPiece().setBorder(rightOne, z, "black");
-                        possible.offer(new int[]{rightOne,z});
+
             }
 }
     
