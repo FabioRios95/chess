@@ -33,9 +33,6 @@ public class King extends Piece {
     }
     private boolean blackCheck=false;
     private boolean whiteCheck=false;
-    
-    
-    
  
     /**
      All space between king and rook empty on King Side, for castling
@@ -214,8 +211,7 @@ public void possibleMove(int t, int z, String colorBorder){
                 leftOne=8;
                 rightOne=8;
             }
-         //Castling
-         
+                //Castling
                 if(isValid(t,z) && !board[t][z].getPiece().hasMoved &&allSpaceBetweenKingAndRookEmptyQS(color) && !spaceUnderAttackQS(color) && !isKingInCheck(t, z, color))
                 {
                     while(!possible.isEmpty())
@@ -235,115 +231,21 @@ public void possibleMove(int t, int z, String colorBorder){
                             possible.offer(new int[]{6,7});
                 }
         
-       
+            int[][] direction = { {leftOne,upOne}, {rightOne,upOne}, {leftOne,downOne}, {rightOne,downOne}, {t,upOne}, {t,downOne}, {leftOne,z}, {rightOne,z}};
             //End of castle, regular movement begins
-            if(isValid(leftOne,upOne) && !board[t][z].getPiece().color.equals(board[leftOne][upOne].getPiece().color))
+            for(int i=0;i<direction.length;i++)
             {
-                        board[leftOne][upOne].getPiece().setBorder(leftOne, upOne, colorBorder);
-                        possible.offer(new int[]{leftOne,upOne});
-            }
-            if(isValid(rightOne,upOne) && !board[t][z].getPiece().color.equals(board[rightOne][upOne].getPiece().color))
-            {
-                        board[rightOne][upOne].getPiece().setBorder(rightOne, upOne, colorBorder);
-                        possible.offer(new int[]{rightOne,upOne});
-            }
-            if(isValid(leftOne,downOne) && !board[t][z].getPiece().color.equals(board[leftOne][downOne].getPiece().color))
-            {
-                        board[leftOne][downOne].getPiece().setBorder(leftOne, downOne, colorBorder);
-                        possible.offer(new int[]{leftOne,downOne});
-            }
-            if(isValid(rightOne,downOne) && !board[t][z].getPiece().color.equals(board[rightOne][downOne].getPiece().color))
-            {
-                        board[rightOne][downOne].getPiece().setBorder(rightOne, downOne, colorBorder);
-                        possible.offer(new int[]{rightOne,downOne});
-            }
-            if(isValid(t,upOne) && !board[t][z].getPiece().color.equals(board[t][upOne].getPiece().color))
-            {
-                        board[t][upOne].getPiece().setBorder(t, upOne, colorBorder);
-                        possible.offer(new int[]{t,upOne});
-            }
-            if(isValid(t,downOne) && !board[t][z].getPiece().color.equals(board[t][downOne].getPiece().color))
-            {
-                        board[t][downOne].getPiece().setBorder(t, downOne, colorBorder);
-                        possible.offer(new int[]{t,downOne});
-            }
-            if(isValid(leftOne,z) && !board[t][z].getPiece().color.equals(board[leftOne][z].getPiece().color))
-            {
-                        board[leftOne][z].getPiece().setBorder(leftOne, z, colorBorder);
-                        possible.offer(new int[]{leftOne,z});
-            }
-            if(isValid(rightOne,z) && !board[t][z].getPiece().color.equals(board[rightOne][z].getPiece().color))
-            {
-                        board[rightOne][z].getPiece().setBorder(rightOne, z, colorBorder);
-                        possible.offer(new int[]{rightOne,z});
+                if(isValid(direction[i][0],direction[i][1]) && !board[t][z].getPiece().color.equals(board[direction[i][0]][direction[i][1]].getPiece().color))
+                {
+                    board[direction[i][0]][direction[i][1]].getPiece().setBorder(direction[i][0],direction[i][1], colorBorder);
+                    possible.offer(new int[]{direction[i][0],direction[i][1]});
+                }
             }
 }
 
 @Override
 public void removeMove(int t, int z){
-int upOne,downOne, leftOne, rightOne;
-
-            if(color.equals("black"))
-            {
-                upOne=z+1;
-                downOne=z-1; 
-                leftOne=t-1;
-                rightOne=t+1;
-
-            } 
-            else if(color.equals("white")){
-                downOne=z+1;
-                upOne=z-1;
-                leftOne=t-1;
-                rightOne=t+1;
-            }
-            else
-            {
-                upOne=8;
-                downOne=8; 
-                leftOne=8;
-                rightOne=8;
-            }
-            
-            if(isValid(leftOne,upOne) && !board[t][z].getPiece().color.equals(board[leftOne][upOne].getPiece().color))
-            {
-                        board[leftOne][upOne].getPiece().setBorder(leftOne, upOne, "black");
-            }
-            if(isValid(rightOne,upOne) && !board[t][z].getPiece().color.equals(board[rightOne][upOne].getPiece().color))
-            {
-                        board[rightOne][upOne].getPiece().setBorder(rightOne, upOne, "black");
-            }
-            if(isValid(leftOne,downOne) && !board[t][z].getPiece().color.equals(board[leftOne][downOne].getPiece().color))
-            {
-                        board[leftOne][downOne].getPiece().setBorder(leftOne, downOne, "black");
-
-            }
-            if(isValid(rightOne,downOne) && !board[t][z].getPiece().color.equals(board[rightOne][downOne].getPiece().color))
-            {
-                        board[rightOne][downOne].getPiece().setBorder(rightOne, downOne, "black");
-
-            }
-            if(isValid(t,upOne) && !board[t][z].getPiece().color.equals(board[t][upOne].getPiece().color))
-            {
-                        board[t][upOne].getPiece().setBorder(t, upOne, "black");
-
-            }
-            if(isValid(t,downOne) && !board[t][z].getPiece().color.equals(board[t][downOne].getPiece().color))
-            {
-                        board[t][upOne].getPiece().setBorder(t, downOne, "black");
-
-            }
-            if(isValid(leftOne,z) && !board[t][z].getPiece().color.equals(board[leftOne][z].getPiece().color))
-            {
-                        board[leftOne][upOne].getPiece().setBorder(leftOne, z, "black");
-
-            }
-            if(isValid(rightOne,z) && !board[t][z].getPiece().color.equals(board[rightOne][z].getPiece().color))
-            {
-                        board[rightOne][z].getPiece().setBorder(rightOne, z, "black");
-
-            }
+    possibleMove(t,z,"black");   
 }
-    
-    
+
 }
