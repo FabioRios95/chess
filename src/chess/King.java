@@ -163,7 +163,7 @@ public class King extends Piece {
         if(playerOneTurn && board[lastX][lastY].getPiece().color.equals("white"))
         {
             String updated = board[lastX][lastY].getPiece().updatePiece;
-            if( ((posX == 6 && posY == 7) && ( !board[7][7].getPiece().hasMoved)) || ((posX == 2 && posY == 7) && ( !board[0][7].getPiece().hasMoved)))
+            if( ((posX == 6 && posY == 7) && (!board[7][7].getPiece().imageName.equals("empty") && !board[7][7].getPiece().hasMoved  && board[7][7].getPiece().pieceName.equals("Rook"))) || ((posX == 2 && posY == 7) && (!board[0][7].getPiece().imageName.equals("empty") && !board[0][7].getPiece().hasMoved && board[0][7].getPiece().pieceName.equals("Rook"))))
                 castling(posX,posY);
             board[lastX][lastY].setPiece(" "); // set old square to empty
             board[posX][posY].setPiece(updated); // move piece to new square
@@ -174,7 +174,7 @@ public class King extends Piece {
         {
             String updated = board[lastX][lastY].getPiece().updatePiece;
            // System.out.println(posX + " " + posY);
-            if( ((posX == 6 && posY == 0) && ( !board[7][0].getPiece().hasMoved))|| ((posX == 2 && posY == 0) && ( !board[0][0].getPiece().hasMoved)))
+            if( ((posX == 6 && posY == 0) && ( !board[7][0].getPiece().imageName.equals("empty") && !board[7][0].getPiece().hasMoved && board[7][0].getPiece().pieceName.equals("Rook")))|| ((posX == 2 && posY == 0) && ( !board[0][0].getPiece().imageName.equals("empty") && !board[0][0].getPiece().hasMoved && board[0][0].getPiece().pieceName.equals("Rook"))))
                 castling(posX,posY);
             board[lastX][lastY].setPiece(" ");
             board[posX][posY].setPiece(updated);
@@ -221,7 +221,7 @@ public void possibleMove(int t, int z, String colorBorder){
                     else if(color.equals("white") && !board[0][7].getPiece().hasMoved)
                             possible.offer(new int[]{2,7});
                 }
-                if(isValid(t,z)&& !board[t][z].getPiece().hasMoved &&allSpaceBetweenKingAndRookEmptyKS(color)&&!spaceUnderAttackKS(color)&&!isKingInCheck(t, z, color))
+                else if(isValid(t,z)&& !board[t][z].getPiece().hasMoved &&allSpaceBetweenKingAndRookEmptyKS(color)&&!spaceUnderAttackKS(color)&&!isKingInCheck(t, z, color))
                 {    
                     while(!possible.isEmpty())
                         possible.poll();
@@ -229,6 +229,10 @@ public void possibleMove(int t, int z, String colorBorder){
                             possible.offer(new int[]{6,0});
                     else if(color.equals("white") && !board[7][7].getPiece().hasMoved)
                             possible.offer(new int[]{6,7});
+                }
+                else {
+                while(!possible.isEmpty())
+                        possible.poll();
                 }
         
             int[][] direction = { {leftOne,upOne}, {rightOne,upOne}, {leftOne,downOne}, {rightOne,downOne}, {t,upOne}, {t,downOne}, {leftOne,z}, {rightOne,z}};
