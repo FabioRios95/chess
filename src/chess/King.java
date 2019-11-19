@@ -41,11 +41,14 @@ public class King extends Piece {
     public boolean allSpaceBetweenKingAndRookEmptyKS(String color)
     {
         Boolean answer=false;
-        if("white".equals(color))
+        
+        // White piece
+        if("white".equals(color))  
         {
             if(board[5][7].getPiece().isEmpty() && board[6][7].getPiece().isEmpty())
                 return true;
         }
+        // Black piece
         else{
             if(board[5][0].getPiece().isEmpty() && board[6][0].getPiece().isEmpty())
                 return true;
@@ -60,11 +63,14 @@ public class King extends Piece {
     public boolean allSpaceBetweenKingAndRookEmptyQS(String color)
     {
         Boolean answer=false;
+        
+        // White Piece
         if("white".equals(color))
         {
             if(board[1][7].getPiece().isEmpty() && board[2][7].getPiece().isEmpty() && board[3][7].getPiece().isEmpty())
                 answer=true;
         }
+        // Black piece
         else{
             if(board[1][0].getPiece().isEmpty() && board[2][0].getPiece().isEmpty() && board[3][0].getPiece().isEmpty())
                 answer=true;
