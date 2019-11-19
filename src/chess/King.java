@@ -35,7 +35,7 @@ public class King extends Piece {
     private boolean whiteCheck=false;
  
     /**
-     *
+     King side Castling
      All space between king and rook empty on King Side, for castling
      */
     public boolean allSpaceBetweenKingAndRookEmptyKS(String color)
@@ -58,6 +58,7 @@ public class King extends Piece {
     }
     
      /**
+     Queen Side Castling
      All space between king and rook empty on Queen Side, for castling
      */
     public boolean allSpaceBetweenKingAndRookEmptyQS(String color)
@@ -194,6 +195,8 @@ public class King extends Piece {
     }
     
 @Override
+    
+// Possible Moves, can only move one space at a time.
 public void possibleMove(int t, int z, String colorBorder){
     int upOne,downOne, leftOne, rightOne;
 
