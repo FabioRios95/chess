@@ -35,6 +35,7 @@ public class King extends Piece {
     private boolean whiteCheck=false;
  
     /**
+     *
      All space between king and rook empty on King Side, for castling
      */
     public boolean allSpaceBetweenKingAndRookEmptyKS(String color)
