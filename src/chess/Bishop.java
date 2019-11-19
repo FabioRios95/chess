@@ -16,6 +16,10 @@ Bishop(String colorPiece)
     }
 
     @Override
+    
+    // Bishop moves diagonally.
+    // t = left and right
+    // z = up and down
     public void possibleMove(int t, int z, String colorBorder){
 
             if(color.equals("black"))

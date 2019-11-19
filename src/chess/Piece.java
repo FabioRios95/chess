@@ -11,10 +11,9 @@ import javafx.stage.Stage;
  *
  * @author coleb29
  */
-/**
- *
- * @author coleb29
- */
+
+
+// Class piece
 public abstract class Piece {
     
     protected Image image;
@@ -102,7 +101,7 @@ public abstract class Piece {
         return imageName.equals("empty");
     }
     
-//Determines if the coordinates t,z are a valid position on chess board.
+//Determines if the coordinates t,z are a valid position on chess board. Border constraints.
     public boolean isValid(int t, int z)
     {
         return t<8 && t>=0 && z<8 && z>=0;
