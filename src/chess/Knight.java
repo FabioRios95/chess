@@ -5,13 +5,16 @@ package chess;
  *
  * @author coleb29
  */
+
+/* class Piece automatically has all variables and methods defined in Knight class*/
 public class Knight extends Piece {
 Knight(String colorPiece)
     {
+    /* "super" refers to parent class objects */
         super(colorPiece);
     }
     
-    
+    /* accepts only integer arguments*/
     public void canMove(int x, int y, int t, int z, String color)
     {
      if(isValid(x,y) && !board[t][z].getPiece().color.equals(board[x][y].getPiece().color))
@@ -20,13 +23,15 @@ Knight(String colorPiece)
                             possible.offer(new int[]{x,y});
             }
     }
-  
+    
+  /* removes move at the specific location*/
     public void removeMove(int t, int z)
     {
         possibleMove(t,z, "black");
     }
     
     @Override
+    /* shows where you could possibly move the Knight piece*/
     public void possibleMove(int t, int z, String colorBorder){
 
     int downTwo,upTwo, diagLeft, diagRight;
