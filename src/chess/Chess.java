@@ -5,6 +5,7 @@
  */
 package chess;
 
+/*Java FX creates an application thread for running the application*/
 import static javafx.application.Application.launch;
 
 /**
@@ -17,7 +18,7 @@ public class Chess {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        launch(viewBoard.class,args);
+        launch(viewBoard.class,args); /* Launch a standalone(can be executed independently) application*/
     }
     
 }
