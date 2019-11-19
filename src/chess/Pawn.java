@@ -5,7 +5,7 @@
  */
 package chess;
 
-
+/* Java fx is a library that creates Java GUI applications*/
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -18,6 +18,8 @@ import javafx.stage.Stage;
  *
  * @author coleb29
  */
+
+/* class Piece automatically has all variables and methods defined in Pawn class*/
 public class Pawn extends Piece {
     
 Pawn(String colorPiece)
@@ -27,7 +29,7 @@ Pawn(String colorPiece)
 
 private String updated="";
 
-
+/* makes a popup message*/
 private void createPopUp(String color){
 
  String optionalPieces[] = 
@@ -99,6 +101,7 @@ public boolean move(int posX, int posY, Stage newWindow, boolean playerOneTurn, 
 
 
     @Override
+    /* possible movesets at specific location*/
     public void possibleMove(int t, int z, String colorBorder)
     {
             int upOne,upTwo, diagLeft, diagRight;
@@ -147,6 +150,7 @@ public boolean move(int posX, int posY, Stage newWindow, boolean playerOneTurn, 
     }
     
         @Override
+     /* removes move at specific location(t,z)*/
     public void removeMove(int t, int z)
     {
 
