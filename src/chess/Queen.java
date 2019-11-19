@@ -9,6 +9,8 @@ package chess;
  *
  * @author coleb29
  */
+
+/* class Piece automatically has all variables and methods defined in Queen class*/
 public class Queen extends Piece {
 Queen(String colorPiece)
     {
@@ -16,6 +18,7 @@ Queen(String colorPiece)
     }
 
     @Override
+    /* all possible move options for the Queen piece*/
     public void possibleMove(int t, int z, String colorBorder){
 
             if(color.equals("black"))
@@ -43,6 +46,7 @@ Queen(String colorPiece)
 
         }
     @Override
+     /* removes move at specific location (t,z)*/
     public void removeMove(int t, int z)
     {
         possibleMove(t,z,"black");
